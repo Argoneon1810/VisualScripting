@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using EaseOfUse.CanvasScale;
+using EaseOfUse.Console;
 
 namespace CookNodeGraph
 {
@@ -7,36 +9,33 @@ namespace CookNodeGraph
         public class DynamicUILineRenderer : UILineRenderer
         {
             public RectTransform handle_From, handle_To;
-            Vector2 lastPos_From, lastPos_To;
+            Vector3 lastPos_From, lastPos_To;
+            Camera camera;
 
             protected override void Initialize()
             {
                 base.Initialize();
-                lastPos_From = lastPos_To = Vector3.zero;
+                camera = canvas.worldCamera ? canvas.worldCamera : Camera.main;
             }
 
             protected void Update()
             {
-                if (!rt) return;
+                if(!camera) Initialize();
 
                 bool isDirty = false;
 
-                var localPos_From = handle_From.anchoredPosition;
+                var screenPos_From = RectTransformUtility.CalculateRelativeRectTransformBounds(rootCanvas.transform, handle_From).center;
+                var screenPos_To = RectTransformUtility.CalculateRelativeRectTransformBounds(rootCanvas.transform, handle_To).center;
 
-                Transform origParent = handle_To.parent;
-                handle_To.SetParent(rt.parent);
-                var localPos_To = handle_To.anchoredPosition;
-                handle_To.SetParent(origParent);
-
-                if (lastPos_From != localPos_From)
+                if (lastPos_From != screenPos_From)
                 {
-                    From = localPos_From;
+                    From = screenPos_From;
                     lastPos_From = From;
                     isDirty = true;
                 }
-                if (lastPos_To != localPos_To)
+                if (lastPos_To != screenPos_To)
                 {
-                    To = localPos_To;
+                    To = screenPos_To;
                     lastPos_To = To;
                     isDirty = true;
                 }

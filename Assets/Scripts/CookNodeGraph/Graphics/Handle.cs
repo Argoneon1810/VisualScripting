@@ -57,19 +57,19 @@ namespace CookNodeGraph
                 vh.AddTriangle(0, vertices, 1);
             }
 
-            public void OnPointerDown()
+            public void OnPointerDown(Vector2 rawMousePosition)
             {
-                if (Vector3.Distance(CanvasScale.GetCanvasMousePosition(canvas), rt.anchoredPosition) < 50)  //50 is a 1/2 of width(or height) which is currently 100.
+                if (Vector3.Distance(CanvasScale.GetMousePositionInCanvas(rawMousePosition, canvas), rt.anchoredPosition) < 50)  //50 is a 1/2 of width(or height) which is currently 100.
                     followMousePosition = true;
             }
-            public void OnPointerUp()
+            public void OnPointerUp(Vector2 rawMousePosition)
             {
                 followMousePosition = false;
 
                 //현 위치의 모든 rectTransform 탐색
                 var gr = GetComponentInParent<GraphicRaycaster>();
                 List<RaycastResult> results = new List<RaycastResult>();
-                gr.Raycast(new UnityEngine.EventSystems.PointerEventData(null), results);
+                gr.Raycast(new PointerEventData(null), results);
                 //node input이 발견되면 해당 노드를 SetParent
                 if (results.Count > 0)
                 {
@@ -87,7 +87,7 @@ namespace CookNodeGraph
             private void Update()
             {
                 if (followMousePosition)
-                    rt.anchoredPosition = CanvasScale.GetCanvasMousePosition(canvas);
+                    rt.anchoredPosition = CanvasScale.GetMousePositionInCanvas(InputManager.GetMousePosition(), canvas);
             }
 
             protected override void OnDestroy()

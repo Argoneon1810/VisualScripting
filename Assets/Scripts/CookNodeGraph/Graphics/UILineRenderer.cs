@@ -16,16 +16,23 @@ namespace CookNodeGraph
             public Vector2 To { get => to; protected set => to = value; }
             public float Width { get => width; protected set => width = value; }
 
-            protected RectTransform rt;
+            protected Canvas rootCanvas;
+
+            protected void Awake()
+            {
+                Initialize();
+            }
 
             protected virtual void Initialize()
             {
-                rt = transform as RectTransform;
+                rootCanvas = GetComponentInParent<Canvas>();
             }
 
             protected override void OnPopulateMesh(VertexHelper vh)
             {
-                if (!rt) Initialize();
+                if (!rootCanvas)
+                    Initialize();
+
                 vh.Clear();
 
                 Vector2 tan = (to - from).normalized.Tangent();
@@ -39,7 +46,7 @@ namespace CookNodeGraph
                 vertex.position = to + tan * -width;
                 vh.AddVert(vertex);
 
-                vertex.position = to + tan * width;
+                vertex.position = to  + tan * width;
                 vh.AddVert(vertex);
 
                 vertex.position = from + tan * width;

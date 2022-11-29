@@ -5,7 +5,7 @@ public class InputManager : MonoBehaviour
 {
     static InputManager instance;
     public static InputManager Instance => instance;
-    public event Action OnPointerDown, OnPointerUp;
+    public event Action<Vector2> OnPointerDown, OnPointerUp;
 
     private void Awake()
     {
@@ -20,7 +20,12 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetButtonDown("Fire1")) OnPointerDown?.Invoke();
-        if(Input.GetButtonUp("Fire1")) OnPointerUp?.Invoke();
+        if(Input.GetButtonDown("Fire1")) OnPointerDown?.Invoke(GetMousePosition());
+        if(Input.GetButtonUp("Fire1")) OnPointerUp?.Invoke(GetMousePosition());
+    }
+
+    public static Vector2 GetMousePosition()
+    {
+        return Input.mousePosition;
     }
 }

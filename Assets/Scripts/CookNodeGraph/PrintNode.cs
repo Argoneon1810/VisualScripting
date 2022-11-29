@@ -25,6 +25,6 @@ public class PrintNode : Node, IHaveInput<Nothing>
 
     public override void OnReceiveSignal()
     {
-        print(debugToPrint);
+        //print(debugToPrint);
     }
 }

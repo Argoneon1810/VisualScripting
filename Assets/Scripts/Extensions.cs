@@ -8,6 +8,8 @@ namespace EaseOfUse
     {
         public class CanvasScale
         {
+            static Vector2 half = new Vector2(.5f, .5f);
+
             public static float GetWidthMatchingScaler(CanvasScaler scaler) => Mathf.Lerp(
                 scaler.referenceResolution.x,
                 scaler.referenceResolution.y * Camera.main.aspect,
@@ -20,42 +22,32 @@ namespace EaseOfUse
                 scaler.matchWidthOrHeight
             );
 
-            public static Vector3 GetMousePositionMatchingScaler(Vector3 mousePos, Canvas targetCanvas)
+            public static Vector2 GetMousePositionInCanvas(Vector2 mousePos, Canvas targetCanvas)
             {
                 CanvasScaler scaler = targetCanvas.GetComponent<CanvasScaler>();
 
                 float scaledCanvasWidth = GetWidthMatchingScaler(scaler);
                 float scaledCanvasHeight = GetHeightMatchingScaler(scaler);
 
-                mousePos.x = mousePos.x / Screen.width * scaledCanvasWidth;
-                mousePos.y = mousePos.y / Screen.height * scaledCanvasHeight;
+                mousePos.x = mousePos.x / Screen.width * scaledCanvasWidth - scaledCanvasWidth / 2;
+                mousePos.y = mousePos.y / Screen.height * scaledCanvasHeight - scaledCanvasHeight / 2;
 
                 return mousePos;
             }
-
-            public static Vector3 GetCanvasMousePosition(Canvas targetCanvas)
+            public static Vector3 GetCenterAnchoredPosition(Vector2 pos, Vector2 anchorMin, Vector2 anchorMax, Canvas targetCanvas)
             {
-                return
-                    ToCoordinateZeroCenter(
-                        GetMousePositionMatchingScaler(
-                            Input.mousePosition,
-                            targetCanvas
-                        ),
-                        targetCanvas
-                    );
-            }
+                if (anchorMin == half && anchorMax == half)
+                    return pos;
 
-            public static Vector3 ToCoordinateZeroCenter(Vector3 mousePos, Canvas targetCanvas)
-            {
                 CanvasScaler scaler = targetCanvas.GetComponent<CanvasScaler>();
 
                 float scaledCanvasWidth = GetWidthMatchingScaler(scaler);
                 float scaledCanvasHeight = GetHeightMatchingScaler(scaler);
 
-                mousePos.x -= scaledCanvasWidth / 2;
-                mousePos.y -= scaledCanvasHeight / 2;
+                var trueCenter = anchorMin + (anchorMax - anchorMin) / 2;
+                var offset = half - trueCenter;
 
-                return mousePos;
+                return pos - new Vector2(offset.x * scaledCanvasWidth, offset.y * scaledCanvasHeight);
             }
         }
     }
@@ -89,6 +81,8 @@ namespace EaseOfUse
                 }
                 return 0;
             }
+
+            public static Vector2 ToVector2XY(this Vector3 vector3) => new Vector2(vector3.x, vector3.y);
         }
 
         public class VectorCalculation
