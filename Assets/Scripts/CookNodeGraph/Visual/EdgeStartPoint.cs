@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace CookNodeGraph
 {
-    namespace Graphics
+    namespace Visual
     {
         public class EdgeStartPoint : MonoBehaviour
         {

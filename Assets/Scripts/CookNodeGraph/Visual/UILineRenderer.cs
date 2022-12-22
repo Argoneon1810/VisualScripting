@@ -4,7 +4,7 @@ using EaseOfUse.VectorCalculation;
 
 namespace CookNodeGraph
 {
-    namespace Graphics
+    namespace Visual
     {
         public class UILineRenderer : Graphic
         {

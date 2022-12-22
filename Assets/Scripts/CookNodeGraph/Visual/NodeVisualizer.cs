@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace CookNodeGraph
 {
-    namespace Graphics
+    namespace Visual
     {
         public class NodeVisualizer : MonoBehaviour
         {

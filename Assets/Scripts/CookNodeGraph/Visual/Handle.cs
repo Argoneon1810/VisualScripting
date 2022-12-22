@@ -6,7 +6,7 @@ using EaseOfUse.CanvasScale;
 
 namespace CookNodeGraph
 {
-    namespace Graphics
+    namespace Visual
     {
         public class Handle : Graphic
         {

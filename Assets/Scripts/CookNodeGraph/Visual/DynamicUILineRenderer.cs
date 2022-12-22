@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
-using EaseOfUse.CanvasScale;
-using EaseOfUse.Console;
 
 namespace CookNodeGraph
 {
-    namespace Graphics
+    namespace Visual
     {
         public class DynamicUILineRenderer : UILineRenderer
         {

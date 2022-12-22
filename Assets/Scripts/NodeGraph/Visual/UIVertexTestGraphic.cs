@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using EaseOfUse.CanvasScale;
 
-namespace Assets.Scripts
+namespace NodeGraph.Visual
 {
     public class UIVertexTestGraphic : Graphic
     {
