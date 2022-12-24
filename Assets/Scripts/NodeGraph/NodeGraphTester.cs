@@ -1,6 +1,6 @@
 using CookNodeGraph;
+using NodeGraph.Visual;
 using UnityEngine;
-using UnityEngine.Assertions;
 
 namespace NodeGraph
 {
@@ -13,10 +13,12 @@ namespace NodeGraph
     public class NodeGraphTester : MonoBehaviour
     {
         NodeGraph ng;
+        Canvas canvas;
         public TestOption testOption = TestOption.NothingType;
 
         private void Awake()
         {
+            canvas = GetComponentInParent<Canvas>();
             ng = GetComponent<NodeGraph>();
         }
 
@@ -42,11 +44,29 @@ namespace NodeGraph
                 (two as SingleValueNode).value = 2;
 
                 Node<float> add = new GameObject("add").AddComponent<AddNode>();
+                Node echo = new GameObject("echo").AddComponent<EchoNode>().OfType(EchoType.Number);
+
+                UIfy(one.transform);
+                UIfy(two.transform);
+                UIfy(add.transform);
+                UIfy(echo.transform);
+
+                one.gameObject.AddComponent<DrawGizmosFromSelfToParentNode>();
+                two.gameObject.AddComponent<DrawGizmosFromSelfToParentNode>();
+                add.gameObject.AddComponent<DrawGizmosFromSelfToParentNode>();
+                echo.gameObject.AddComponent<DrawGizmosFromSelfToParentNode>();
 
                 add.AssignChildren(one);
                 add.AssignChildren(two);
-                ng.GetRoot().AssignChildren(add);
+                echo.AssignChildren(add);
+                ng.GetRoot().AssignChildren(echo);
             }
+        }
+
+        private void UIfy(Transform target)
+        {
+            target.SetParent(canvas.transform, false);
+            target.gameObject.AddComponent<RectTransform>();
         }
     }
 }

@@ -1,0 +1,10 @@
+{
+	"name": "carrot",
+	"quantity": "1",
+	"resultsOfProcessing": [
+		{
+			"processing": "Chopping",
+			"result": "carrot_chopped"
+		}
+	]
+}

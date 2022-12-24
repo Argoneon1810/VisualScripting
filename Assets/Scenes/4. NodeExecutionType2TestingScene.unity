@@ -235,6 +235,7 @@ GameObject:
   - component: {fileID: 347340532}
   - component: {fileID: 347340534}
   - component: {fileID: 347340535}
+  - component: {fileID: 347340536}
   m_Layer: 0
   m_Name: Real Graph
   m_TagString: Untagged
@@ -251,12 +252,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 347340531}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5b80025728f3a84980d45e441514a50, type: 3}
+  m_Script: {fileID: 11500000, guid: fcee3d90ed03c294994dc6342bc0212c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Prefab: {fileID: 0}
   root: {fileID: 347340535}
-  debugNewNode: 0
+  ticksPerSecond: 20
+  timeSinceLastTick: 0
 --- !u!224 &347340533
 RectTransform:
   m_ObjectHideFlags: 0
@@ -285,7 +286,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 347340531}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9929d095762048e419882a394a1dfa92, type: 3}
+  m_Script: {fileID: 11500000, guid: 96ac2f5bae6411545a36800158a4ead9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   testOption: 1
@@ -298,10 +299,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 347340531}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc8ca78886dae9040b678a655d2d94e2, type: 3}
+  m_Script: {fileID: 11500000, guid: cd96aa22565db6146a73440c94d127ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Parent: {fileID: 0}
   Children: []
+--- !u!114 &347340536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 347340531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5ec86bbe79cd294da5df98787181282, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  silence: 1
 --- !u!1 &503439380
 GameObject:
   m_ObjectHideFlags: 0

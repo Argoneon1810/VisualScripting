@@ -7,14 +7,14 @@ namespace NodeGraph
     {
         public float value;
 
-        private void Start()
+        protected override void Start()
         {
-            Result<float> result = new Result<float>();
+            base.Start();
+
+            Result<float> result = this.result as Result<float>;
             result.SetValue(value);
             this.result = result;
         }
-
-        protected override void Calculate() {}
 
         protected override int NumOfInputs()
         {

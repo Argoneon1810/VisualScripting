@@ -1,16 +1,21 @@
-public class Result { }
+using System;
 
-public class Result<T> : Result
+namespace NodeGraph
 {
-    protected T Value;
+    public class Result { }
 
-    public virtual T GetValue()
+    public class Result<T> : Result
     {
-        return Value;
-    }
+        protected T Value;
 
-    public virtual void SetValue(T t)
-    {
-        Value = t;
+        public virtual T GetValue()
+        {
+            return Value;
+        }
+
+        public virtual void SetValue(T t)
+        {
+            Value = t;
+        }
     }
 }

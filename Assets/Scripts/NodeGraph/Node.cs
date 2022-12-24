@@ -1,33 +1,19 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.Networking.UnityWebRequest;
 
 namespace NodeGraph
 {
     public class Node : MonoBehaviour
     {
-        [SerializeField]
-        protected List<Node> Children = new List<Node>();
-        protected RectTransform rt;
-        protected Canvas canvas;
-        protected Node Parent;
+        [SerializeField] protected Node Parent;
+        [SerializeField] protected List<Node> Children = new List<Node>();
+
         protected Result result;
-        private void Awake()
+
+        public Node GetParent() => Parent;
+        public void AssignParent(Node node)
         {
-            rt = transform as RectTransform;
-            if (!rt) gameObject.AddComponent<RectTransform>();
-            canvas = GetComponentInParent<Canvas>();
-        }
-
-        private void OnDrawGizmos()
-        {
-            if (!Parent) return;
-            if (!canvas) return;
-
-            Gizmos.matrix = canvas.transform.localToWorldMatrix;
-
-            Gizmos.color = Color.red;
-            Gizmos.DrawLine(rt.anchoredPosition, (Parent.transform as RectTransform).anchoredPosition);
+            Parent = node;
         }
 
         public void AssignChildren(Node node)
@@ -58,15 +44,7 @@ namespace NodeGraph
             node.AssignParent(this);
         }
 
-        public void AssignParent(Node node)
-        {
-            Parent = node;
-        }
-
-        protected virtual void Calculate()
-        {
-            Debug.Log(name + "_Calculate(): Function not specified");
-        }
+        protected virtual void Calculate() { }
 
         protected virtual int NumOfInputs()
         {
@@ -80,5 +58,11 @@ namespace NodeGraph
         }
     }
 
-    public class Node<T> : Node {}
+    public class Node<T> : Node
+    {
+        protected virtual void Start()
+        {
+            result = new Result<T>();
+        }
+    }
 }

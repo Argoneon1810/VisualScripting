@@ -4,24 +4,21 @@ namespace NodeGraph
 {
     public class NodeGraph : MonoBehaviour
     {
-        [SerializeField] GameObject Prefab;
         [SerializeField] EndNode root;
-        public bool debugNewNode;
-
-        public GameObject CreateNewNode()
-        {
-            return Instantiate(Prefab, transform.parent);
-        }
+        [SerializeField] int ticksPerSecond = 1;
+        [SerializeField] float timeSinceLastTick = 0f;
 
         private void Update()
         {
-            if(debugNewNode)
-            {
-                debugNewNode = false;
-                CreateNewNode();
-            }
+            //bottom limit
+            if(ticksPerSecond < 1) ticksPerSecond = 1;
 
-            if (root) root.Tick();
+            if (timeSinceLastTick > 1f / ticksPerSecond)
+            {
+                timeSinceLastTick = 0f;
+                if (root) root.Tick();
+            }
+            timeSinceLastTick += Time.deltaTime;
         }
         
         public EndNode GetRoot()

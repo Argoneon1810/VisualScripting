@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace NodeGraph
@@ -7,11 +8,19 @@ namespace NodeGraph
         protected override void Calculate()
         {
             float value = 0;
-            for (int i = 0; i < NumOfInputs(); ++i)
-                value += (Children[i].Tick() as Result<float>).GetValue();
-            result = new Result<float>();
-            (result as Result<float>).SetValue(value);
-            Debug.Log("add result: " + value);
+            try
+            {
+                for (int i = 0; i < NumOfInputs(); ++i)
+                    value += (Children[i].Tick() as Result<float>).GetValue();
+            }
+            catch (NullReferenceException e)
+            {
+                Debug.LogError(e.Message);
+            }
+            finally
+            {
+                (result as Result<float>).SetValue(value);
+            }
         }
 
         protected override int NumOfInputs()
