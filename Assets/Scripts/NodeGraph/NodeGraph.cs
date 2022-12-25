@@ -1,24 +1,35 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace NodeGraph
 {
     public class NodeGraph : MonoBehaviour
     {
+        public UnityEvent<float> Extra_OnTickDeltaChanged;
+
         [SerializeField] EndNode root;
         [SerializeField] int ticksPerSecond = 1;
-        [SerializeField] float timeSinceLastTick = 0f;
+        [SerializeField] float tickDelta = 0;
+
+        float timeSinceLastTick = 1;
 
         private void Update()
         {
-            //bottom limit
-            if(ticksPerSecond < 1) ticksPerSecond = 1;
+            timeSinceLastTick += Time.deltaTime;
 
-            if (timeSinceLastTick > 1f / ticksPerSecond)
+            //bottom limit
+            if (ticksPerSecond < 1) ticksPerSecond = 1;
+
+            float fullTickInterval = 1f / ticksPerSecond;
+
+            if (timeSinceLastTick > fullTickInterval)
             {
                 timeSinceLastTick = 0f;
                 if (root) root.Tick();
             }
-            timeSinceLastTick += Time.deltaTime;
+
+            tickDelta = timeSinceLastTick / fullTickInterval;
+            Extra_OnTickDeltaChanged?.Invoke(tickDelta);
         }
         
         public EndNode GetRoot()
