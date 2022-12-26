@@ -38,10 +38,10 @@ namespace NodeGraph
             else if(testOption == TestOption.MathType)
             {
                 Node<float> one = new GameObject("one").AddComponent<SingleValueNode>();
-                (one as SingleValueNode).value = 1;
+                (one as SingleValueNode).Value = 5;
 
                 Node<float> two = new GameObject("two").AddComponent<SingleValueNode>();
-                (two as SingleValueNode).value = 2;
+                (two as SingleValueNode).Value = 4;
 
                 Node<float> add = new GameObject("add").AddComponent<AddNode>();
                 Node echo = new GameObject("echo").AddComponent<EchoNode>().OfType(EchoType.Number);
