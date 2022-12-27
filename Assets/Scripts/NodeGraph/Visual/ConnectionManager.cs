@@ -21,6 +21,7 @@ public class ConnectionManager : MonoBehaviour
     }
 
     [SerializeField] Edge currentEdgeInHold;
+    [SerializeField] EdgeVis currentEdgeInHold_Vis;
     [SerializeField] Node probableParent, probableChild;
 
     private void Awake()
@@ -28,14 +29,24 @@ public class ConnectionManager : MonoBehaviour
         Instance = this;
     }
 
-    public void CreateConenction(Knob from, KnobType knobType)
+    public void CreateConenction(Knob knob, KnobType knobType)
     {
         currentEdgeInHold = new GameObject("edge").AddComponent<Edge>();
-        UIfy(from.GetComponentInParent<Canvas>(), currentEdgeInHold.transform);
-        if(knobType == KnobType.Input)
-            probableParent = from.GetNodeOfKnob();
+        UIfy(knob.GetComponentInParent<Canvas>(), currentEdgeInHold.transform);
+
+        currentEdgeInHold.gameObject.AddComponent<CanvasRenderer>();
+        currentEdgeInHold_Vis = currentEdgeInHold.gameObject.AddComponent<EdgeVis>();
+
+        if (knobType == KnobType.Input)
+        {
+            probableParent = knob.GetNodeOfKnob();
+            currentEdgeInHold_Vis.EdgeStartsFrom(knob.transform);
+        }
         else
-            probableChild = from.GetNodeOfKnob();
+        {
+            probableChild = knob.GetNodeOfKnob();
+            currentEdgeInHold_Vis.EdgeEndsTo(knob.transform);
+        }
     }
 
     public void CompleteConnection(Knob knob, KnobType knobType)
@@ -45,6 +56,7 @@ public class ConnectionManager : MonoBehaviour
             knob.GetNodeOfKnob().AssignChildren(currentEdgeInHold);
             currentEdgeInHold.AssignChildren(probableChild);
             currentEdgeInHold.name += "-" + knob.GetNodeOfKnob().name + "~" + probableChild.name;
+            currentEdgeInHold_Vis.EdgeStartsFrom(knob.transform);
             ResetState();
         }
         else if (knobType == KnobType.Output && probableChild == null)
@@ -52,6 +64,7 @@ public class ConnectionManager : MonoBehaviour
             currentEdgeInHold.AssignChildren(knob.GetNodeOfKnob());
             probableParent.AssignChildren(currentEdgeInHold);
             currentEdgeInHold.name += "-" + probableParent.name + "~" + knob.GetNodeOfKnob().name;
+            currentEdgeInHold_Vis.EdgeEndsTo(knob.transform);
             ResetState();
         }
     }
@@ -61,6 +74,8 @@ public class ConnectionManager : MonoBehaviour
         probableParent = null;
         probableChild = null;
         currentEdgeInHold = null;
+        currentEdgeInHold_Vis.isIncomplete = false;
+        currentEdgeInHold_Vis = null;
     }
 
     public void TryDestroyInvalidConnection()
