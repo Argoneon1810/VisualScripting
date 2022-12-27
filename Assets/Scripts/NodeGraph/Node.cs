@@ -44,6 +44,17 @@ namespace NodeGraph
             node.AssignParent(this);
         }
 
+        public void RemoveChildren(Node node)
+        {
+            Children.Remove(node);
+        }
+
+        public void RemoveAllChildren()
+        {
+            for (int i = Children.Count - 1; i >= 0; --i)
+                Children.Remove(Children[i]);
+        }
+
         protected virtual void Calculate() { }
 
         protected virtual int NumOfInputs()

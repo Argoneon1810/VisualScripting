@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace NodeGraph
 {
@@ -12,6 +13,7 @@ namespace NodeGraph
     public class EchoNode : Node
     {
         public EchoType type;
+        public UnityEvent<string> OnEcho;
 
         public EchoNode OfType(EchoType type)
         {
@@ -22,6 +24,7 @@ namespace NodeGraph
         protected override void Calculate()
         {
             if (Children.Count == 0) return;
+            if (Children[0] == null) return;
 
             result = Children[0].Tick();
             try
@@ -29,17 +32,24 @@ namespace NodeGraph
                 switch (type)
                 {
                     case EchoType.Text:
-                        Debug.Log((result as Result<string>).GetValue());
+                        Echo((result as Result<string>).GetValue());
                         break;
                     case EchoType.Number:
-                        Debug.Log((result as Result<float>).GetValue());
+                        Echo((result as Result<float>).GetValue().ToString());
                         break;
                 }
-            } catch (NullReferenceException e)
-            {
-                Debug.LogError(e.Message + "\n" + e.StackTrace);
-                Debug.Log("Please check if an EchoType is set to correct type.");
             }
+            catch (NullReferenceException e)
+            {
+                Echo("Please check if an EchoType is set to correct type.");
+                Debug.LogError(e.Message + "\n" + e.StackTrace);
+            }
+        }
+
+        private void Echo(string toEcho)
+        {
+            Debug.Log(toEcho);
+            OnEcho?.Invoke(toEcho);
         }
 
         protected override int NumOfInputs()

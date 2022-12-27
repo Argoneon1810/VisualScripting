@@ -4,18 +4,24 @@ using UnityEngine;
 public class InputManager : MonoBehaviour
 {
     static InputManager instance;
-    public static InputManager Instance => instance;
+    public static InputManager Instance
+    {
+        get => instance;
+        set {
+            if (instance != null)
+                Destroy(value.gameObject);
+            else
+            {
+                instance = value;
+                DontDestroyOnLoad(value.gameObject);
+            }
+        }
+    }
     public event Action<Vector2> OnPointerDown, OnPointerUp;
 
     private void Awake()
     {
-        if (instance)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        else instance = this;
-        DontDestroyOnLoad(this);
+        Instance = this;
     }
 
     private void Update()

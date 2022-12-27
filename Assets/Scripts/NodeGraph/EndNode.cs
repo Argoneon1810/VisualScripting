@@ -6,7 +6,10 @@ namespace NodeGraph
     {
         protected override void Calculate()
         {
-            Children[NumOfInputs() - 1]?.Tick();
+            if (Children.Count == 0) return;
+            if (Children[0] == null) return;
+
+            Children[0].Tick();
         }
 
         protected override int NumOfInputs()

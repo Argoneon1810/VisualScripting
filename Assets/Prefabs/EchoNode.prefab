@@ -70,7 +70,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c9f7e6c157a8f6f438ae1a22645ef6a6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 361752144b3901e4f958667bc0346079, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -223,6 +223,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4289459505450820659}
+  - component: {fileID: 3292986180639682606}
   m_Layer: 5
   m_Name: OutKnob
   m_TagString: Untagged
@@ -251,6 +252,21 @@ RectTransform:
   m_AnchoredPosition: {x: -10, y: -15.5}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 1, y: 1}
+--- !u!114 &3292986180639682606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4348802010667308200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f201375dc27ed14183390e5b34ef474, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  self: {fileID: 5592806093594077433}
+  type: 1
+  index: 0
 --- !u!1 &4533248990648383592
 GameObject:
   m_ObjectHideFlags: 0
@@ -391,7 +407,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c9f7e6c157a8f6f438ae1a22645ef6a6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 361752144b3901e4f958667bc0346079, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -410,6 +426,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8460873458768252729}
+  - component: {fileID: 5810079733069102770}
   m_Layer: 5
   m_Name: InKnob
   m_TagString: Untagged
@@ -438,6 +455,21 @@ RectTransform:
   m_AnchoredPosition: {x: 10, y: -15.5}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0, y: 1}
+--- !u!114 &5810079733069102770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4704161145326377524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f201375dc27ed14183390e5b34ef474, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  self: {fileID: 5592806093594077433}
+  type: 0
+  index: 0
 --- !u!1 &4810860751753802710
 GameObject:
   m_ObjectHideFlags: 0
@@ -503,7 +535,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c9f7e6c157a8f6f438ae1a22645ef6a6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 361752144b3901e4f958667bc0346079, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -578,7 +610,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c9f7e6c157a8f6f438ae1a22645ef6a6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 361752144b3901e4f958667bc0346079, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -732,6 +764,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5531311655860221687}
   - component: {fileID: 5592806093594077433}
+  - component: {fileID: 5592806093594077434}
   m_Layer: 5
   m_Name: EchoNode
   m_TagString: Untagged
@@ -777,6 +810,33 @@ MonoBehaviour:
   Children:
   - {fileID: 0}
   type: 1
+  OnEcho:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5592806093594077434}
+        m_TargetAssemblyTypeName: NodeGraph.Visual.EchoNodeVis, Assembly-CSharp
+        m_MethodName: OnEcho
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &5592806093594077434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6662132929768492157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cea6a67f2169c149b1cded854727971, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6665189500594448765
 GameObject:
   m_ObjectHideFlags: 0
@@ -842,7 +902,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c9f7e6c157a8f6f438ae1a22645ef6a6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 361752144b3901e4f958667bc0346079, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1051,7 +1111,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c9f7e6c157a8f6f438ae1a22645ef6a6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 361752144b3901e4f958667bc0346079, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
