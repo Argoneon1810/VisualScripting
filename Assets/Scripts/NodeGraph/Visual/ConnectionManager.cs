@@ -1,6 +1,7 @@
 using NodeGraph;
 using NodeGraph.Visual;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ConnectionManager : MonoBehaviour
 {
@@ -24,18 +25,40 @@ public class ConnectionManager : MonoBehaviour
     [SerializeField] EdgeVis currentEdgeInHold_Vis;
     [SerializeField] Node probableParent, probableChild;
 
+    [SerializeField] Material lineMaterial, outlineMaterial;
+
     private void Awake()
     {
         Instance = this;
     }
 
+    private Pair<Edge, EdgeVis> CreateEdge(Knob knob)
+    {
+        Edge edge = new GameObject("edge").AddComponent<Edge>();
+        UIfy(knob.GetComponentInParent<Canvas>(), edge.transform);
+
+        EdgeVis edgeVis = edge.gameObject.AddComponent<EdgeVis>();
+        edge.gameObject.AddComponent<CanvasRenderer>();
+        edgeVis.material = lineMaterial;
+
+        Outline4UILineRendererCreator outline = edgeVis.gameObject.AddComponent<Outline4UILineRendererCreator>();
+        outline.AssignDefaultMaterial(outlineMaterial);
+
+        Color body = Color.HSVToRGB(0, 0, 0.16f);
+        Color border = Color.HSVToRGB(0, 0, 0.12f);
+        body.a = 1;
+        border.a = 1;
+        edgeVis.SetVisuals(body, 3.5f);
+        outline.SetVisuals(border, 2f);
+
+        return new Pair<Edge, EdgeVis>(edge, edgeVis);
+    }
+
     public void CreateConenction(Knob knob, KnobType knobType)
     {
-        currentEdgeInHold = new GameObject("edge").AddComponent<Edge>();
-        UIfy(knob.GetComponentInParent<Canvas>(), currentEdgeInHold.transform);
-
-        currentEdgeInHold.gameObject.AddComponent<CanvasRenderer>();
-        currentEdgeInHold_Vis = currentEdgeInHold.gameObject.AddComponent<EdgeVis>();
+        var edgeSet = CreateEdge(knob);
+        currentEdgeInHold = edgeSet.First;
+        currentEdgeInHold_Vis = edgeSet.Second;
 
         if (knobType == KnobType.Input)
         {

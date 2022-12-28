@@ -17,6 +17,11 @@ namespace CookNodeGraph
             public float Width { get => width; protected set => width = value; }
 
             protected Canvas rootCanvas;
+            public Canvas RootCanvas
+            {
+                get => rootCanvas;
+                protected set => rootCanvas = value;
+            }
 
             protected void Awake()
             {
@@ -25,12 +30,18 @@ namespace CookNodeGraph
 
             protected virtual void Initialize()
             {
-                rootCanvas = GetComponentInParent<Canvas>();
+                RootCanvas = GetComponentInParent<Canvas>();
+            }
+
+            public void SetVisuals(Color color, float width)
+            {
+                this.color = color;
+                Width = width;
             }
 
             protected override void OnPopulateMesh(VertexHelper vh)
             {
-                if (!rootCanvas)
+                if (!RootCanvas)
                     Initialize();
 
                 vh.Clear();

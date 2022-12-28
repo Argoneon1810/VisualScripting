@@ -1,7 +1,6 @@
 ﻿using CookNodeGraph.Visual;
 using UnityEngine;
 using EaseOfUse.CanvasScale;
-using EaseOfUse.Console;
 
 namespace NodeGraph.Visual
 {

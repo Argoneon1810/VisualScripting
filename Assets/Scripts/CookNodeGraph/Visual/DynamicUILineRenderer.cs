@@ -22,8 +22,8 @@ namespace CookNodeGraph
 
                 bool isDirty = false;
 
-                var screenPos_From = RectTransformUtility.CalculateRelativeRectTransformBounds(rootCanvas.transform, handle_From).center;
-                var screenPos_To = RectTransformUtility.CalculateRelativeRectTransformBounds(rootCanvas.transform, handle_To).center;
+                var screenPos_From = RectTransformUtility.CalculateRelativeRectTransformBounds(RootCanvas.transform, handle_From).center;
+                var screenPos_To = RectTransformUtility.CalculateRelativeRectTransformBounds(RootCanvas.transform, handle_To).center;
 
                 if (lastPos_From != screenPos_From)
                 {
