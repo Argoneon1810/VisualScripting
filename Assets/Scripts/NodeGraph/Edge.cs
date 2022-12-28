@@ -15,7 +15,7 @@ namespace NodeGraph
 
         public Node GetChild()
         {
-            return Children[0];
+            return Children.Count > 0 ? Children[0] : null;
         }
     }
 }

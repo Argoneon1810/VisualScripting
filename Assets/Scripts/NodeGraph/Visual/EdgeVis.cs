@@ -1,17 +1,20 @@
 ﻿using CookNodeGraph.Visual;
 using UnityEngine;
 using EaseOfUse.CanvasScale;
+using System;
+using System.Linq;
 
 namespace NodeGraph.Visual
 {
     public class EdgeVis : UILineRenderer
     {
+        [SerializeField] Transform fromKnob, toKnob;
+
+        [SerializeField] bool mannualInitialize;
         public bool isIncomplete = true;
 
         Edge self;
         Camera camera;
-
-        Transform fromKnob, toKnob;
 
         Vector3 lastPos_From, lastPos_To;
 
@@ -34,12 +37,18 @@ namespace NodeGraph.Visual
 
         protected void Update()
         {
+            if (mannualInitialize)
+            {
+                mannualInitialize = false;
+                MannualInitialize();
+            }
+
             if (!camera) Initialize();
 
             bool isDirty = false;
 
-            Vector3 screenPos_From = Vector3.zero;
-            Vector3 screenPos_To = Vector3.zero;
+            Vector3 screenPos_From;
+            Vector3 screenPos_To;
 
             if (isIncomplete)
             {
@@ -70,6 +79,21 @@ namespace NodeGraph.Visual
                 isDirty = true;
             }
             if (isDirty) SetVerticesDirty();
+        }
+
+        private void MannualInitialize()
+        {
+            Component[] parentComp_NodeVis = self.GetParent().GetComponents<Component>().Where((comp) => comp is NodeVis).ToArray();
+            Component[] childComp_NodeVis = self.GetChild().GetComponents<Component>().Where((comp) => comp is NodeVis).ToArray();
+            if (parentComp_NodeVis == null || parentComp_NodeVis.Length == 0 ||
+                childComp_NodeVis == null || childComp_NodeVis.Length == 0)
+            {
+                Debug.LogError("NodeVis must exist, but something went wrong");
+                return;
+            }
+
+            fromKnob = (parentComp_NodeVis[0] as NodeVis).GetInputKnobOf(self).transform;
+            toKnob = (childComp_NodeVis[0] as NodeVis).GetOutputKnobOf(self).transform;
         }
     }
 }

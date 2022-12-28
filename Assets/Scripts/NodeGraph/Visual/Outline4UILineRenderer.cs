@@ -1,10 +1,5 @@
-﻿using System.Collections;
-using UnityEngine;
-using UnityEngine.UI;
-
+﻿using UnityEngine;
 using CookNodeGraph.Visual;
-using System;
-using static UnityEditor.PlayerSettings;
 
 namespace NodeGraph.Visual
 {

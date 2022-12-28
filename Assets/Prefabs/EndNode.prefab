@@ -584,7 +584,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Parent: {fileID: 0}
-  Children: []
+  Children:
+  - {fileID: 0}
 --- !u!114 &8074595020288963259
 MonoBehaviour:
   m_ObjectHideFlags: 0

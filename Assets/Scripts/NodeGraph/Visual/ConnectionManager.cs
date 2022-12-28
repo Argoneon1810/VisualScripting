@@ -1,8 +1,8 @@
 using NodeGraph;
 using NodeGraph.Visual;
 using UnityEngine;
-using UnityEngine.UI;
 
+[ExecuteAlways]
 public class ConnectionManager : MonoBehaviour
 {
     private static ConnectionManager instance;
@@ -16,7 +16,9 @@ public class ConnectionManager : MonoBehaviour
             else
             {
                 instance = value;
+#if !DEBUG
                 DontDestroyOnLoad(value.gameObject);
+#endif
             }
         }
     }
@@ -62,31 +64,31 @@ public class ConnectionManager : MonoBehaviour
 
         if (knobType == KnobType.Input)
         {
-            probableParent = knob.GetNodeOfKnob();
+            probableParent = knob.GetOwner();
             currentEdgeInHold_Vis.EdgeStartsFrom(knob.transform);
         }
         else
         {
-            probableChild = knob.GetNodeOfKnob();
+            probableChild = knob.GetOwner();
             currentEdgeInHold_Vis.EdgeEndsTo(knob.transform);
         }
     }
-
+    
     public void CompleteConnection(Knob knob, KnobType knobType)
     {
         if (knobType == KnobType.Input && probableParent == null)
         {
-            knob.GetNodeOfKnob().AssignChildren(currentEdgeInHold);
+            knob.GetOwner().AssignChildren(currentEdgeInHold);
             currentEdgeInHold.AssignChildren(probableChild);
-            currentEdgeInHold.name += "-" + knob.GetNodeOfKnob().name + "~" + probableChild.name;
+            currentEdgeInHold.name += "-" + knob.GetOwner().name + "~" + probableChild.name;
             currentEdgeInHold_Vis.EdgeStartsFrom(knob.transform);
             ResetState();
         }
         else if (knobType == KnobType.Output && probableChild == null)
         {
-            currentEdgeInHold.AssignChildren(knob.GetNodeOfKnob());
+            currentEdgeInHold.AssignChildren(knob.GetOwner());
             probableParent.AssignChildren(currentEdgeInHold);
-            currentEdgeInHold.name += "-" + probableParent.name + "~" + knob.GetNodeOfKnob().name;
+            currentEdgeInHold.name += "-" + probableParent.name + "~" + knob.GetOwner().name;
             currentEdgeInHold_Vis.EdgeEndsTo(knob.transform);
             ResetState();
         }

@@ -57,6 +57,6 @@ namespace NodeGraph.Visual
             //현재 클릭이 노드 연결 활성화된 상태인 경우 노드 연결 스내핑
         }
 
-        public Node GetNodeOfKnob() => self;
+        public Node GetOwner() => self;
     }
 }

@@ -12,7 +12,6 @@ namespace IO
         [SerializeField] private bool loadGiven;
         [SerializeField] private string nameOfIngredientToLoad;
 
-        // Use this for initialization
         void Start()
         {
             //DebugLoadSingleCarrot();

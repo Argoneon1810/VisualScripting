@@ -57,6 +57,11 @@ namespace NodeGraph
                 Children.Remove(Children[i]);
         }
 
+        public bool HasChild(Node probableChild)
+        {
+            return Children.Contains(probableChild);
+        }
+
         protected virtual void Calculate() { }
 
         protected virtual int NumOfInputs()

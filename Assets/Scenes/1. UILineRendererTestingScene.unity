@@ -500,6 +500,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineRenderer: {fileID: 780632486}
+  originalLineRenderer: {fileID: 371825311}
   outlineMaterial: {fileID: 2100000, guid: 752dc1bbe5552d14f97738208d15b535, type: 2}
   width: 3.73
   outlineColor: {r: 1, g: 1, b: 1, a: 1}
@@ -760,7 +761,6 @@ MonoBehaviour:
   from: {x: -616.0001, y: 417}
   to: {x: 593, y: -357.00006}
   width: 13.73
-  originalLineRenderer: {fileID: 371825311}
 --- !u!222 &780632487
 CanvasRenderer:
   m_ObjectHideFlags: 0
