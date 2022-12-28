@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace NodeGraph.Visual
 {
-    public class EchoNodeVis : MonoBehaviour
+    public class EchoNodeVis : NodeVis
     {
         public void OnEcho(string toEcho)
         {

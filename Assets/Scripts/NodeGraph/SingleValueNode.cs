@@ -12,7 +12,7 @@ namespace NodeGraph
             set
             {
                 this.value = value;
-                (result as Result<float>).SetValue(value);
+                (result as Result<float>)?.SetValue(value);
             }
         }
 

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-namespace NodeGraph
+namespace NodeGraph.Visual
 {
-    public class MathNodeStateVis : MonoBehaviour
+    public class MathNodeStateVis : NodeVis
     {
         MathNode self;
         TextMeshProUGUI description;

@@ -1,14 +1,17 @@
 ﻿using UnityEngine;
+using TMPro;
 
 namespace NodeGraph.Visual
 {
-    public class SingleValueNodeVis : MonoBehaviour
+    public class SingleValueNodeVis : NodeVis
     {
         SingleValueNode self;
+        [SerializeField] TMP_InputField text;
 
         private void Start()
         {
             self = GetComponent<SingleValueNode>();
+            text.text = self.Value.ToString();
         }
 
         public void OnValueChanged(string changedValue)

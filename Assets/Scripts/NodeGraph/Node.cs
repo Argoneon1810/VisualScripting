@@ -16,6 +16,8 @@ namespace NodeGraph
             Parent = node;
         }
 
+        public List<Node> GetChildren() => Children;
+
         public void AssignChildren(Node node)
         {
             AssignChildren(node, Children.Count);
