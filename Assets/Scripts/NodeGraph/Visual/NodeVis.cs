@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
@@ -11,7 +10,7 @@ namespace NodeGraph.Visual
         [SerializeField] List<Knob> inputKnobs = new List<Knob>();
         [SerializeField] List<Knob> outputKnobs = new List<Knob>();
 
-        private void Awake()
+        protected virtual void Awake()
         {
             if (inputKnobs.Count == 0 || outputKnobs.Count == 0)
             {

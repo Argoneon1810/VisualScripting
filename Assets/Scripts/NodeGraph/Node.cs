@@ -62,6 +62,11 @@ namespace NodeGraph
             return Children.Contains(probableChild);
         }
 
+        public int IndexOf(Node node)
+        {
+            return Children.IndexOf(node);
+        }
+
         protected virtual void Calculate() { }
 
         protected virtual int NumOfInputs()
