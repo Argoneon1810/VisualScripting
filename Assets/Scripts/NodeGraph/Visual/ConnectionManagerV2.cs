@@ -69,8 +69,13 @@ namespace NodeGraph.Visual
 
         public void CompleteConnection(Knob knob, KnobType knobType)
         {
+            //해당 클릭이 현재 노드 연결이 활성화된 상태이며
+            //자신의 노드가 이미 다른 노드와 연결된 상태라면 연결을 교체하되
+            //새 노드가 자기 자신 또는 자신의 부모인 경우 무시
             if (knobType == KnobType.Input && probableParent == null)
             {
+                if (HasAncestryLoop(knob.GetOwner(), probableChild)) return;
+
                 knob.GetOwner().AssignChildren(currentEdgeInHold);
                 currentEdgeInHold.AssignChildren(probableChild);
                 currentEdgeInHold.name += "-" + knob.GetOwner().name + "~" + probableChild.name;
@@ -79,6 +84,8 @@ namespace NodeGraph.Visual
             }
             else if (knobType == KnobType.Output && probableChild == null)
             {
+                if (HasAncestryLoop(probableParent, knob.GetOwner())) return;
+
                 currentEdgeInHold.AssignChildren(knob.GetOwner());
                 probableParent.AssignChildren(currentEdgeInHold);
                 currentEdgeInHold.name += "-" + probableParent.name + "~" + knob.GetOwner().name;
@@ -108,6 +115,21 @@ namespace NodeGraph.Visual
         {
             target.SetParent(canvas.transform, false);
             target.gameObject.AddComponent<RectTransform>();
+        }
+
+        private bool HasAncestryLoop(Node parent, Node child)
+        {
+            if (parent == child)
+                return true;
+
+            Node current = parent.GetParent();
+            while (current)
+            {
+                if(current == child)
+                    return true;
+                current = current.GetParent();
+            }
+            return false;
         }
     }
 }
