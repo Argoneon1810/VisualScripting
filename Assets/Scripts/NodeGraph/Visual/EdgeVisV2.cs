@@ -12,7 +12,7 @@ namespace NodeGraph.Visual
     {
         [SerializeField] Color bodyColor, outlineColor;
         [SerializeField] float width, outlineWidth;
-        float lastOutlineWidth;
+        float lastOutlineWidth = float.NegativeInfinity;
 
         [SerializeField, HideInInspector] Edge self;
         [SerializeField] Canvas rootCanvas;
@@ -21,7 +21,7 @@ namespace NodeGraph.Visual
         [SerializeField, HideInInspector] RectTransform edgeBodyTransform, edgeOutlineTransform;
 
         [SerializeField] Transform fromKnob, toKnob;
-        [SerializeField, HideInInspector] Vector3 lastPos_From, lastPos_To;
+        [SerializeField, HideInInspector] Vector3 lastPos_From = Vector3.negativeInfinity, lastPos_To = Vector3.negativeInfinity;
 
         public bool isIncomplete = true;
 
@@ -55,6 +55,29 @@ namespace NodeGraph.Visual
             }
         }
 
+        [SerializeField] RectTransform EdgeBodyTransform
+        {
+            get
+            {
+                if (!edgeBodyTransform)
+                    edgeBodyTransform = transform.GetChild(1) as RectTransform;
+                return edgeBodyTransform;
+            }
+        }
+
+        [SerializeField]
+        RectTransform EdgeOutlineTransform
+        {
+            get
+            {
+                if (!edgeOutlineTransform)
+                    edgeOutlineTransform = transform.GetChild(0) as RectTransform;
+                return edgeOutlineTransform;
+            }
+        }
+
+        bool skipThisFrame = false;
+
         private void Start()
         {
             self = GetComponent<Edge>();
@@ -63,14 +86,26 @@ namespace NodeGraph.Visual
 
         private void Update()
         {
-            if (!edgeOutlineTransform) CreateOutline();
-            if (!edgeBodyTransform) CreateBody();
+            if (transform.childCount != 2)
+            {
+                for (int i = transform.childCount-1; i >= 0; --i)
+                    DestroyImmediate(transform.GetChild(i).gameObject);
+                CreateOutline();
+                CreateBody();
+                skipThisFrame = true;
+            }
+
+            if (skipThisFrame)
+            {
+                skipThisFrame = false;
+                return;
+            }
 
             if (lastOutlineWidth != outlineWidth)
             {
                 lastOutlineWidth = outlineWidth;
-                edgeOutlineTransform.offsetMin = Vector2.zero - Vector2.one * outlineWidth;
-                edgeOutlineTransform.offsetMax = Vector2.zero + Vector2.one * outlineWidth;
+                EdgeOutlineTransform.offsetMin = Vector2.zero - Vector2.one * outlineWidth;
+                EdgeOutlineTransform.offsetMax = Vector2.zero + Vector2.one * outlineWidth;
             }
 
             bool isDirty = false;

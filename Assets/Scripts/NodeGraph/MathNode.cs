@@ -15,6 +15,7 @@ namespace NodeGraph
 
     public class MathNode : Node<float>
     {
+        private static Result<float> Zero = new Result<float>();
         public UnityEvent OnTypeChange;
         [SerializeField] private MathType type;
         public MathType Type
@@ -31,8 +32,8 @@ namespace NodeGraph
             float toReturn = 0;
             try
             {
-                Result<float> a = Children[0].Tick() as Result<float>;
-                Result<float> b = Children[1].Tick() as Result<float>;
+                Result<float> a = (Children.Count - 1) >= 0 ? Children[0] ? Children[0].Tick() as Result<float> : Zero : Zero;
+                Result<float> b = (Children.Count - 1) >= 1 ? Children[1] ? Children[1].Tick() as Result<float> : Zero : Zero;
 
                 switch (type)
                 {

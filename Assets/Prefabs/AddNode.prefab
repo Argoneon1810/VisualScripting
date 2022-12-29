@@ -301,6 +301,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3998626051756522165}
   - component: {fileID: 340172092662061396}
+  - component: {fileID: 3590232651466544679}
   m_Layer: 5
   m_Name: OutKnob
   m_TagString: Untagged
@@ -344,6 +345,67 @@ MonoBehaviour:
   self: {fileID: 941708473466664862}
   type: 1
   index: 0
+--- !u!114 &3590232651466544679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3504026904465508910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 6
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 340172092662061396}
+          m_TargetAssemblyTypeName: NodeGraph.Visual.Knob, Assembly-CSharp
+          m_MethodName: OnDrop
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 13
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 340172092662061396}
+          m_TargetAssemblyTypeName: NodeGraph.Visual.Knob, Assembly-CSharp
+          m_MethodName: OnBeginDrag
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 14
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 340172092662061396}
+          m_TargetAssemblyTypeName: NodeGraph.Visual.Knob, Assembly-CSharp
+          m_MethodName: OnEndDrag
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &3608390955037550318
 GameObject:
   m_ObjectHideFlags: 0
@@ -429,6 +491,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9050861701473124526}
   - component: {fileID: 8898178909332098448}
+  - component: {fileID: 1864677313266622594}
   m_Layer: 5
   m_Name: InKnob #2
   m_TagString: Untagged
@@ -472,6 +535,67 @@ MonoBehaviour:
   self: {fileID: 941708473466664862}
   type: 0
   index: 1
+--- !u!114 &1864677313266622594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3738317318489688554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 6
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8898178909332098448}
+          m_TargetAssemblyTypeName: NodeGraph.Visual.Knob, Assembly-CSharp
+          m_MethodName: OnDrop
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 13
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8898178909332098448}
+          m_TargetAssemblyTypeName: NodeGraph.Visual.Knob, Assembly-CSharp
+          m_MethodName: OnBeginDrag
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 14
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8898178909332098448}
+          m_TargetAssemblyTypeName: NodeGraph.Visual.Knob, Assembly-CSharp
+          m_MethodName: OnEndDrag
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &3867481227310499824
 GameObject:
   m_ObjectHideFlags: 0
@@ -766,6 +890,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8760009325023973823}
   - component: {fileID: 8245932516029064301}
+  - component: {fileID: 4304202899565263856}
   m_Layer: 5
   m_Name: InKnob #1
   m_TagString: Untagged
@@ -809,6 +934,67 @@ MonoBehaviour:
   self: {fileID: 941708473466664862}
   type: 0
   index: 0
+--- !u!114 &4304202899565263856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5598616621684868274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 6
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8245932516029064301}
+          m_TargetAssemblyTypeName: NodeGraph.Visual.Knob, Assembly-CSharp
+          m_MethodName: OnDrop
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 13
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8245932516029064301}
+          m_TargetAssemblyTypeName: NodeGraph.Visual.Knob, Assembly-CSharp
+          m_MethodName: OnBeginDrag
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 14
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8245932516029064301}
+          m_TargetAssemblyTypeName: NodeGraph.Visual.Knob, Assembly-CSharp
+          m_MethodName: OnEndDrag
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &5636639597709962576
 GameObject:
   m_ObjectHideFlags: 0

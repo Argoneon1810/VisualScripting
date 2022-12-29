@@ -2,7 +2,13 @@ using System;
 
 namespace NodeGraph
 {
-    public class Result { }
+    public class Result
+    {
+        public static implicit operator bool(Result self)
+        {
+            return self != null;
+        }
+    }
 
     public class Result<T> : Result
     {
