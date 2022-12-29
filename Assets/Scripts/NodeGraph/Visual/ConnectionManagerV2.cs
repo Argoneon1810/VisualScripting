@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 namespace NodeGraph.Visual
 {
@@ -90,15 +91,16 @@ namespace NodeGraph.Visual
         private void CreateTemporaryEdge(Knob knob)
         {
             temporaryEdge = new TemporaryEdge();
+            
             GameObject edgeGameObject = new GameObject("edge");
             Transform edgeTransform = edgeGameObject.transform;
+
             edgeTransform.SetParent(edgeHolder);
-            temporaryEdge.knobInHold = knob;
-
-            temporaryEdge.edgeInHold = edgeGameObject.AddComponent<Edge>();
-            UIfy(knob.GetComponentInParent<Canvas>(), edgeTransform);
-
+            edgeGameObject.AddComponent<RectTransform>();
             edgeGameObject.AddComponent<CanvasRenderer>();
+
+            temporaryEdge.knobInHold = knob;
+            temporaryEdge.edgeInHold = edgeGameObject.AddComponent<Edge>();
             temporaryEdge.edgeInHold_Vis = edgeGameObject.AddComponent<EdgeVisV2>();
 
             temporaryEdge.edgeInHold_Vis.SetVisuals(bodyWidth, bodyColor, outlineWidth, outlineColor);
@@ -147,12 +149,6 @@ namespace NodeGraph.Visual
         {
             temporaryEdge.edgeInHold_Vis.isIncomplete = false;
             temporaryEdge = null;
-        }
-
-        private void UIfy(Canvas canvas, Transform target)
-        {
-            target.SetParent(canvas.transform, false);
-            target.gameObject.AddComponent<RectTransform>();
         }
 
         private bool HasAncestryLoop(Node parent, Node child)

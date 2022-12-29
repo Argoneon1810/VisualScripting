@@ -1,5 +1,3 @@
-using System;
-
 namespace NodeGraph
 {
     public class Result

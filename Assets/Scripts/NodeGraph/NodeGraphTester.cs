@@ -44,7 +44,7 @@ namespace NodeGraph
                 (two as SingleValueNode).Value = 4;
 
                 Node<float> add = new GameObject("add").AddComponent<AddNode>();
-                Node echo = new GameObject("echo").AddComponent<EchoNode>().OfType(EchoType.Number);
+                Node echo = new GameObject("echo").AddComponent<EchoNode>();
 
                 UIfy(one.transform);
                 UIfy(two.transform);
