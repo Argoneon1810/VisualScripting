@@ -1,8 +1,22 @@
-﻿using System.Collections;
+﻿using System;
 using UnityEngine;
 
 namespace NodeGraph.Visual
 {
+    [Serializable]
+    public class TemporaryEdge
+    {
+        public Knob knobInHold;
+        public Edge edgeInHold;
+        public EdgeVisV2 edgeInHold_Vis;
+        public Node probableParent, probableChild;
+
+        public static implicit operator bool(TemporaryEdge self)
+        {
+            return self != null;
+        }
+    }
+
     [ExecuteAlways]
     public class ConnectionManagerV2 : MonoBehaviour
     {
@@ -24,9 +38,7 @@ namespace NodeGraph.Visual
             }
         }
 
-        [SerializeField] Edge currentEdgeInHold;
-        [SerializeField] EdgeVisV2 currentEdgeInHold_Vis;
-        [SerializeField] Node probableParent, probableChild;
+        [SerializeField] TemporaryEdge temporaryEdge;
 
         [SerializeField] float bodyWidth, outlineWidth;
         [SerializeField] Color bodyColor, outlineColor;
@@ -36,34 +48,19 @@ namespace NodeGraph.Visual
             Instance = this;
         }
 
-        private Pair<Edge, EdgeVisV2> CreateEdge(Knob knob)
-        {
-            Edge edge = new GameObject("edge").AddComponent<Edge>();
-            UIfy(knob.GetComponentInParent<Canvas>(), edge.transform);
-
-            EdgeVisV2 edgeVis = edge.gameObject.AddComponent<EdgeVisV2>();
-            edge.gameObject.AddComponent<CanvasRenderer>();
-
-            edgeVis.SetVisuals(bodyWidth, bodyColor, outlineWidth, outlineColor);
-
-            return new Pair<Edge, EdgeVisV2>(edge, edgeVis);
-        }
-
         public void CreateConenction(Knob knob, KnobType knobType)
         {
-            var edgeSet = CreateEdge(knob);
-            currentEdgeInHold = edgeSet.First;
-            currentEdgeInHold_Vis = edgeSet.Second;
+            CreateTemporaryEdge(knob);
 
             if (knobType == KnobType.Input)
             {
-                probableParent = knob.GetOwner();
-                currentEdgeInHold_Vis.EdgeStartsFrom(knob.transform);
+                temporaryEdge.probableParent = knob.GetOwner();
+                temporaryEdge.edgeInHold_Vis.EdgeStartsFrom(knob.transform);
             }
             else
             {
-                probableChild = knob.GetOwner();
-                currentEdgeInHold_Vis.EdgeEndsTo(knob.transform);
+                temporaryEdge.probableChild = knob.GetOwner();
+                temporaryEdge.edgeInHold_Vis.EdgeEndsTo(knob.transform);
             }
         }
 
@@ -72,43 +69,81 @@ namespace NodeGraph.Visual
             //해당 클릭이 현재 노드 연결이 활성화된 상태이며
             //자신의 노드가 이미 다른 노드와 연결된 상태라면 연결을 교체하되
             //새 노드가 자기 자신 또는 자신의 부모인 경우 무시
-            if (knobType == KnobType.Input && probableParent == null)
+            if (knobType == KnobType.Input && temporaryEdge.probableParent == null)
             {
-                if (HasAncestryLoop(knob.GetOwner(), probableChild)) return;
-
-                knob.GetOwner().AssignChildren(currentEdgeInHold);
-                currentEdgeInHold.AssignChildren(probableChild);
-                currentEdgeInHold.name += "-" + knob.GetOwner().name + "~" + probableChild.name;
-                currentEdgeInHold_Vis.EdgeStartsFrom(knob.transform);
-                ResetState();
+                if (!HasAncestryLoop(knob.GetOwner(), temporaryEdge.probableChild))
+                {
+                    CompleteEdgeStretchedFromOutput(knob);
+                }
             }
-            else if (knobType == KnobType.Output && probableChild == null)
+            else if (knobType == KnobType.Output && temporaryEdge.probableChild == null)
             {
-                if (HasAncestryLoop(probableParent, knob.GetOwner())) return;
-
-                currentEdgeInHold.AssignChildren(knob.GetOwner());
-                probableParent.AssignChildren(currentEdgeInHold);
-                currentEdgeInHold.name += "-" + probableParent.name + "~" + knob.GetOwner().name;
-                currentEdgeInHold_Vis.EdgeEndsTo(knob.transform);
-                ResetState();
+                if (!HasAncestryLoop(temporaryEdge.probableParent, knob.GetOwner()))
+                {
+                    CompleteEdgeStretchedFromInput(knob);
+                }
             }
+        }
+
+        private void CreateTemporaryEdge(Knob knob)
+        {
+            temporaryEdge = new TemporaryEdge();
+            GameObject edgeGameObject = new GameObject("edge");
+            Transform edgeTransform = edgeGameObject.transform;
+            temporaryEdge.knobInHold = knob;
+
+            temporaryEdge.edgeInHold = edgeGameObject.AddComponent<Edge>();
+            UIfy(knob.GetComponentInParent<Canvas>(), edgeTransform);
+
+            edgeGameObject.AddComponent<CanvasRenderer>();
+            temporaryEdge.edgeInHold_Vis = edgeGameObject.AddComponent<EdgeVisV2>();
+
+            temporaryEdge.edgeInHold_Vis.SetVisuals(bodyWidth, bodyColor, outlineWidth, outlineColor);
+
+            return;
+        }
+
+        private void CompleteEdgeStretchedFromOutput(Knob knob)
+        {
+            Node parentNode = knob.GetOwner();
+            Edge oldEdge = parentNode.GetChildAt(knob.Index) as Edge;
+
+            if (oldEdge) Destroy(oldEdge.gameObject);
+
+            parentNode.AssignChildren(temporaryEdge.edgeInHold, knob.Index);
+            temporaryEdge.edgeInHold.AssignChildren(temporaryEdge.probableChild);
+            temporaryEdge.edgeInHold.name += "-" + knob.GetOwner().name + "~" + temporaryEdge.probableChild.name;
+            temporaryEdge.edgeInHold_Vis.EdgeStartsFrom(knob.transform);
+
+            ResetState();
+        }
+
+        private void CompleteEdgeStretchedFromInput(Knob knob)
+        {
+            Edge oldEdge = temporaryEdge.probableParent.GetChildAt(temporaryEdge.knobInHold.Index) as Edge;
+
+            if (oldEdge) Destroy(oldEdge.gameObject);
+
+            temporaryEdge.edgeInHold.AssignChildren(knob.GetOwner());
+            temporaryEdge.probableParent.AssignChildren(temporaryEdge.edgeInHold, temporaryEdge.knobInHold.Index);
+            temporaryEdge.edgeInHold.name += "-" + temporaryEdge.probableParent.name + "~" + knob.GetOwner().name;
+            temporaryEdge.edgeInHold_Vis.EdgeEndsTo(knob.transform);
+
+            ResetState();
         }
 
         public void TryDestroyInvalidConnection()
         {
-            if (!currentEdgeInHold) return;
+            if (!temporaryEdge) return;
 
-            Destroy(currentEdgeInHold.gameObject);
+            Destroy(temporaryEdge.edgeInHold.gameObject);
             ResetState();
         }
 
         private void ResetState()
         {
-            probableParent = null;
-            probableChild = null;
-            currentEdgeInHold = null;
-            currentEdgeInHold_Vis.isIncomplete = false;
-            currentEdgeInHold_Vis = null;
+            temporaryEdge.edgeInHold_Vis.isIncomplete = false;
+            temporaryEdge = null;
         }
 
         private void UIfy(Canvas canvas, Transform target)

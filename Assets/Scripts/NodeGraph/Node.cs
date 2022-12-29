@@ -17,12 +17,10 @@ namespace NodeGraph
         }
 
         public List<Node> GetChildren() => Children;
+        public bool HasChild(Node probableChild) => Children.Contains(probableChild);
+        public int IndexOf(Node node) => Children.IndexOf(node);
 
-        public void AssignChildren(Node node)
-        {
-            AssignChildren(node, Children.Count);
-        }
-
+        public void AssignChildren(Node node) => AssignChildren(node, Children.Count);
         public void AssignChildren(Node node, int index)
         {
             if (index > NumOfInputs() - 1 || index < 0)
@@ -46,25 +44,10 @@ namespace NodeGraph
             node.AssignParent(this);
         }
 
-        public void RemoveChildren(Node node)
+        public Node GetChildAt(int index)
         {
-            Children.Remove(node);
-        }
-
-        public void RemoveAllChildren()
-        {
-            for (int i = Children.Count - 1; i >= 0; --i)
-                Children.Remove(Children[i]);
-        }
-
-        public bool HasChild(Node probableChild)
-        {
-            return Children.Contains(probableChild);
-        }
-
-        public int IndexOf(Node node)
-        {
-            return Children.IndexOf(node);
+            if (Children.Count - 1 < index) return null;
+            return Children[index];
         }
 
         protected virtual void Calculate() { }
