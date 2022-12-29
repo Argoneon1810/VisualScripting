@@ -84,6 +84,8 @@ namespace EaseOfUse
 
             public static Vector2 ToVector2XY(this Vector3 vector3) => new Vector2(vector3.x, vector3.y);
 
+            public static Vector3 ToVector3(this Vector2 vector2) => vector2;
+
             public static RectTransform rt(this Transform transform) => transform as RectTransform;
         }
 

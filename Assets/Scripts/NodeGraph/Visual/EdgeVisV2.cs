@@ -60,7 +60,7 @@ namespace NodeGraph.Visual
             get
             {
                 if (!edgeBodyTransform)
-                    edgeBodyTransform = transform.GetChild(1) as RectTransform;
+                    edgeBodyTransform = transform.GetChild(1).rt();
                 return edgeBodyTransform;
             }
         }
@@ -81,7 +81,7 @@ namespace NodeGraph.Visual
         private void Start()
         {
             self = GetComponent<Edge>();
-            rectTransform = transform as RectTransform;
+            rectTransform = transform.rt();
         }
 
         private void Update()
@@ -143,7 +143,9 @@ namespace NodeGraph.Visual
                 float angleDeg = Mathf.Acos(Vector2.Dot(dir_Normalized, Vector2.right)) * Mathf.Rad2Deg;
                 if (screenPos_From.y < screenPos_To.y) angleDeg *= -1;
 
-                rectTransform.anchoredPosition = screenPos_To + dir_Normalized * dir_Magnitude / 2;
+                Vector3 calculatedPosition = screenPos_To + dir_Normalized * dir_Magnitude / 2 - transform.parent.rt().anchoredPosition.ToVector3();
+
+                rectTransform.anchoredPosition = calculatedPosition;
                 rectTransform.localRotation = Quaternion.Euler(0, 0, angleDeg);
                 rectTransform.sizeDelta = new Vector2(dir_Magnitude, width);
             }

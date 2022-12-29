@@ -43,6 +43,8 @@ namespace NodeGraph.Visual
         [SerializeField] float bodyWidth, outlineWidth;
         [SerializeField] Color bodyColor, outlineColor;
 
+        [SerializeField] Transform edgeHolder;
+
         private void Awake()
         {
             Instance = this;
@@ -90,6 +92,7 @@ namespace NodeGraph.Visual
             temporaryEdge = new TemporaryEdge();
             GameObject edgeGameObject = new GameObject("edge");
             Transform edgeTransform = edgeGameObject.transform;
+            edgeTransform.SetParent(edgeHolder);
             temporaryEdge.knobInHold = knob;
 
             temporaryEdge.edgeInHold = edgeGameObject.AddComponent<Edge>();
