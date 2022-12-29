@@ -869,8 +869,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Parent: {fileID: 0}
-  Children:
-  - {fileID: 0}
+  Children: []
   type: 1
   OnEcho:
     m_PersistentCalls:

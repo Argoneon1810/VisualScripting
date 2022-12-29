@@ -1011,9 +1011,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Parent: {fileID: 0}
-  Children:
-  - {fileID: 0}
-  - {fileID: 0}
+  Children: []
 --- !u!1 &6521850716036897815
 GameObject:
   m_ObjectHideFlags: 0

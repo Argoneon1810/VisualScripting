@@ -2209,9 +2209,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Parent: {fileID: 0}
-  Children:
-  - {fileID: 0}
-  - {fileID: 0}
+  Children: []
   OnTypeChange:
     m_PersistentCalls:
       m_Calls:
@@ -2240,6 +2238,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70a0085561292e64c8971bb44de0f36c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputKnobs: []
+  outputKnobs: []
 --- !u!1 &6814243336432648791
 GameObject:
   m_ObjectHideFlags: 0
