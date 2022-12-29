@@ -1,7 +1,6 @@
 ﻿using CookNodeGraph.Visual;
 using UnityEngine;
 using EaseOfUse.CanvasScale;
-using System;
 using System.Linq;
 
 namespace NodeGraph.Visual
@@ -25,16 +24,6 @@ namespace NodeGraph.Visual
             self = GetComponent<Edge>();
         }
 
-        public void EdgeStartsFrom(Transform fromKnob)
-        {
-            this.fromKnob = fromKnob;
-        }
-
-        public void EdgeEndsTo(Transform toKnob)
-        {
-            this.toKnob = toKnob;
-        }
-
         protected void Update()
         {
             if (mannualInitialize)
@@ -56,7 +45,7 @@ namespace NodeGraph.Visual
                     screenPos_From = RectTransformUtility.CalculateRelativeRectTransformBounds(rootCanvas.transform, fromKnob).center;
                 else
                     screenPos_From = CanvasScale.GetMousePositionInCanvas(InputManager.GetMousePosition(), rootCanvas);
-                if(toKnob)
+                if (toKnob)
                     screenPos_To = RectTransformUtility.CalculateRelativeRectTransformBounds(rootCanvas.transform, toKnob).center;
                 else
                     screenPos_To = CanvasScale.GetMousePositionInCanvas(InputManager.GetMousePosition(), rootCanvas);
@@ -79,6 +68,16 @@ namespace NodeGraph.Visual
                 isDirty = true;
             }
             if (isDirty) SetVerticesDirty();
+        }
+
+        public void EdgeStartsFrom(Transform fromKnob)
+        {
+            this.fromKnob = fromKnob;
+        }
+
+        public void EdgeEndsTo(Transform toKnob)
+        {
+            this.toKnob = toKnob;
         }
 
         private void MannualInitialize()

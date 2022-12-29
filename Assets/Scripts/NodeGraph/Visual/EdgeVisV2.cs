@@ -3,28 +3,125 @@ using UnityEngine.UI;
 using EaseOfUse.VectorCalculation;
 using EaseOfUse.Console;
 using System.Linq;
+using EaseOfUse.CanvasScale;
 
 namespace NodeGraph.Visual
 {
     [ExecuteAlways]
     public class EdgeVisV2 : NodeVis
     {
-        [SerializeField] Edge self;
         [SerializeField] Color bodyColor, outlineColor;
-
-        [SerializeField] Canvas canvas;
-        [SerializeField] RectTransform rectTransform;
-
-        [SerializeField] RectTransform body, outline;
-
         [SerializeField] float width, outlineWidth;
         float lastOutlineWidth;
+
+        [SerializeField, HideInInspector] Edge self;
+        [SerializeField] Canvas rootCanvas;
+        [SerializeField, HideInInspector] RectTransform rectTransform;
+
+        [SerializeField, HideInInspector] RectTransform edgeBodyTransform, edgeOutlineTransform;
+
+        [SerializeField] Transform fromKnob, toKnob;
+        [SerializeField, HideInInspector] Vector3 lastPos_From, lastPos_To;
+
+        public bool isIncomplete = true;
+
+        [SerializeField] Canvas RootCanvas
+        {
+            get
+            {
+                if (!rootCanvas)
+                    rootCanvas = GetComponentInParent<Canvas>();
+                return rootCanvas;
+            }
+        }
+
+        [SerializeField] Transform FromKnob
+        {
+            get
+            {
+                if (!fromKnob && self.GetParent())
+                    fromKnob = GetNodeVisOf(self.GetParent()).GetInputKnobAt(self.GetParent().IndexOf(self)).transform;
+                return fromKnob;
+            }
+        }
+
+        [SerializeField] Transform ToKnob
+        {
+            get
+            {
+                if (!toKnob && self.GetChild())
+                    toKnob = GetNodeVisOf(self.GetChild()).GetOutputKnobAt(0).transform; // TODO: 출력 노드 개수가 바뀌면 수정 필요
+                return toKnob;
+            }
+        }
 
         private void Start()
         {
             self = GetComponent<Edge>();
             rectTransform = transform as RectTransform;
-            canvas = GetComponentInParent<Canvas>();
+        }
+
+        private void Update()
+        {
+            if (!edgeOutlineTransform) CreateOutline();
+            if (!edgeBodyTransform) CreateBody();
+
+            if (lastOutlineWidth != outlineWidth)
+            {
+                lastOutlineWidth = outlineWidth;
+                edgeOutlineTransform.offsetMin = Vector2.zero - Vector2.one * outlineWidth;
+                edgeOutlineTransform.offsetMax = Vector2.zero + Vector2.one * outlineWidth;
+            }
+
+            bool isDirty = false;
+
+            Vector3 screenPos_From;
+            Vector3 screenPos_To;
+
+            if (isIncomplete)
+            {
+                if (FromKnob)
+                    screenPos_From = RectTransformUtility.CalculateRelativeRectTransformBounds(RootCanvas.transform, FromKnob).center;
+                else
+                    screenPos_From = CanvasScale.GetMousePositionInCanvas(InputManager.GetMousePosition(), RootCanvas);
+                if (ToKnob)
+                    screenPos_To = RectTransformUtility.CalculateRelativeRectTransformBounds(RootCanvas.transform, ToKnob).center;
+                else
+                    screenPos_To = CanvasScale.GetMousePositionInCanvas(InputManager.GetMousePosition(), RootCanvas);
+            }
+            else
+            {
+                screenPos_From = RectTransformUtility.CalculateRelativeRectTransformBounds(RootCanvas.transform, FromKnob).center;
+                screenPos_To = RectTransformUtility.CalculateRelativeRectTransformBounds(RootCanvas.transform, ToKnob).center;
+            }
+
+            if (lastPos_From != screenPos_From || lastPos_To != screenPos_To)
+                isDirty = true;
+
+            if (isDirty)
+            {
+                isDirty = false;
+
+                Vector3 dir = screenPos_From - screenPos_To;
+                Vector3 dir_Normalized = dir.normalized;
+                float dir_Magnitude = dir.magnitude;
+                float angleDeg = Mathf.Acos(Vector2.Dot(dir_Normalized, Vector2.right)) * Mathf.Rad2Deg;
+                if (screenPos_From.y < screenPos_To.y) angleDeg *= -1;
+
+                rectTransform.anchoredPosition = screenPos_To + dir_Normalized * dir_Magnitude / 2;
+                rectTransform.localRotation = Quaternion.Euler(0, 0, angleDeg);
+                rectTransform.sizeDelta = new Vector2(dir_Magnitude, width);
+            }
+        }
+
+        public void EdgeStartsFrom(Transform fromKnob)
+        {
+            this.fromKnob = fromKnob;
+        }
+
+        public void EdgeEndsTo(Transform toKnob)
+        {
+            this.toKnob = toKnob;
         }
 
         private void CreateBody()
@@ -33,13 +130,14 @@ namespace NodeGraph.Visual
             bodyGameObject.name = "Body";
             Transform bodyTransform = bodyGameObject.transform;
             bodyTransform.SetParent(transform, false);
-            body = bodyGameObject.AddComponent<RectTransform>();
-            body.anchorMin = Vector2.zero;
-            body.anchorMax = Vector2.one;
-            body.anchoredPosition = Vector2.zero;
-            body.sizeDelta = Vector2.zero;
+            edgeBodyTransform = bodyGameObject.AddComponent<RectTransform>();
+            edgeBodyTransform.anchorMin = Vector2.zero;
+            edgeBodyTransform.anchorMax = Vector2.one;
+            edgeBodyTransform.anchoredPosition = Vector2.zero;
+            edgeBodyTransform.sizeDelta = Vector2.zero;
             Image bodyImage = bodyGameObject.AddComponent<Image>();
             bodyImage.color = bodyColor;
+            bodyImage.raycastTarget = false;
         }
 
         private void CreateOutline()
@@ -48,42 +146,14 @@ namespace NodeGraph.Visual
             outlineGameObject.name = "Outline";
             Transform outlineTransform = outlineGameObject.transform;
             outlineTransform.SetParent(transform, false);
-            outline = outlineGameObject.AddComponent<RectTransform>();
-            outline.anchorMin = Vector2.zero;
-            outline.anchorMax = Vector2.one;
-            outline.anchoredPosition = Vector2.zero - Vector2.one * outlineWidth;
-            outline.sizeDelta = Vector2.zero - Vector2.one * outlineWidth;
+            edgeOutlineTransform = outlineGameObject.AddComponent<RectTransform>();
+            edgeOutlineTransform.anchorMin = Vector2.zero;
+            edgeOutlineTransform.anchorMax = Vector2.one;
+            edgeOutlineTransform.anchoredPosition = Vector2.zero - Vector2.one * outlineWidth;
+            edgeOutlineTransform.sizeDelta = Vector2.zero - Vector2.one * outlineWidth;
             Image outlineImage = outlineGameObject.AddComponent<Image>();
             outlineImage.color = outlineColor;
-        }
-
-        private void Update()
-        {
-            if (!outline) CreateOutline();
-            if (!body) CreateBody();
-
-            if (lastOutlineWidth != outlineWidth)
-            {
-                lastOutlineWidth = outlineWidth;
-                outline.offsetMin = Vector2.zero - Vector2.one * outlineWidth;
-                outline.offsetMax = Vector2.zero + Vector2.one * outlineWidth;
-            }
-
-            var knobInParent = GetNodeVisOf(self.GetParent()).GetInputKnobAt(self.GetParent().IndexOf(self));
-            var knobInChild = GetNodeVisOf(self.GetChild()).GetOutputKnobAt(0); // TODO: 출력 노드 개수가 바뀌면 수정 필요
-
-            var parentPos = RectTransformUtility.CalculateRelativeRectTransformBounds(canvas.transform, knobInParent.transform).center;
-            var childPos = RectTransformUtility.CalculateRelativeRectTransformBounds(canvas.transform, knobInChild.transform).center;
-
-            var dir = parentPos - childPos;
-            var dir_Normalized = dir.normalized;
-            var dir_Magnitude = dir.magnitude;
-            var angleDeg = Mathf.Acos(Vector2.Dot(dir_Normalized, Vector2.right)) * Mathf.Rad2Deg;
-            if (parentPos.y < childPos.y) angleDeg *= -1;
-
-            rectTransform.anchoredPosition = childPos + dir_Normalized * dir_Magnitude / 2;
-            rectTransform.localRotation = Quaternion.Euler(0, 0, angleDeg);
-            rectTransform.sizeDelta = new Vector2(dir_Magnitude, width);
+            outlineImage.raycastTarget = false;
         }
 
         private NodeVis GetNodeVisOf(Node node)
@@ -95,6 +165,14 @@ namespace NodeGraph.Visual
                 return null;
             }
             return comps_NodeVis[0] as NodeVis;
+        }
+
+        public void SetVisuals(float bodyWidth, Color bodyColor, float outlineWidth, Color outlineColor)
+        {
+            this.width = bodyWidth;
+            this.bodyColor = bodyColor;
+            this.outlineWidth = outlineWidth;
+            this.outlineColor = outlineColor;
         }
     }
 }

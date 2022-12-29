@@ -1,12 +1,13 @@
+﻿using System.Collections;
 using UnityEngine;
 
 namespace NodeGraph.Visual
 {
     [ExecuteAlways]
-    public class ConnectionManager : MonoBehaviour
+    public class ConnectionManagerV2 : MonoBehaviour
     {
-        private static ConnectionManager instance;
-        public static ConnectionManager Instance
+        private static ConnectionManagerV2 instance;
+        public static ConnectionManagerV2 Instance
         {
             get => instance;
             set
@@ -24,36 +25,28 @@ namespace NodeGraph.Visual
         }
 
         [SerializeField] Edge currentEdgeInHold;
-        [SerializeField] EdgeVis currentEdgeInHold_Vis;
+        [SerializeField] EdgeVisV2 currentEdgeInHold_Vis;
         [SerializeField] Node probableParent, probableChild;
 
-        [SerializeField] Material lineMaterial, outlineMaterial;
+        [SerializeField] float bodyWidth, outlineWidth;
+        [SerializeField] Color bodyColor, outlineColor;
 
         private void Awake()
         {
             Instance = this;
         }
 
-        private Pair<Edge, EdgeVis> CreateEdge(Knob knob)
+        private Pair<Edge, EdgeVisV2> CreateEdge(Knob knob)
         {
             Edge edge = new GameObject("edge").AddComponent<Edge>();
             UIfy(knob.GetComponentInParent<Canvas>(), edge.transform);
 
-            EdgeVis edgeVis = edge.gameObject.AddComponent<EdgeVis>();
+            EdgeVisV2 edgeVis = edge.gameObject.AddComponent<EdgeVisV2>();
             edge.gameObject.AddComponent<CanvasRenderer>();
-            edgeVis.material = lineMaterial;
 
-            Outline4UILineRendererCreator outline = edgeVis.gameObject.AddComponent<Outline4UILineRendererCreator>();
-            outline.AssignDefaultMaterial(outlineMaterial);
+            edgeVis.SetVisuals(bodyWidth, bodyColor, outlineWidth, outlineColor);
 
-            Color body = Color.HSVToRGB(0, 0, 0.16f);
-            Color border = Color.HSVToRGB(0, 0, 0.12f);
-            body.a = 1;
-            border.a = 1;
-            edgeVis.SetVisuals(body, 3.5f);
-            outline.SetVisuals(border, 2f);
-
-            return new Pair<Edge, EdgeVis>(edge, edgeVis);
+            return new Pair<Edge, EdgeVisV2>(edge, edgeVis);
         }
 
         public void CreateConenction(Knob knob, KnobType knobType)
@@ -94,6 +87,14 @@ namespace NodeGraph.Visual
             }
         }
 
+        public void TryDestroyInvalidConnection()
+        {
+            if (!currentEdgeInHold) return;
+
+            Destroy(currentEdgeInHold.gameObject);
+            ResetState();
+        }
+
         private void ResetState()
         {
             probableParent = null;
@@ -101,14 +102,6 @@ namespace NodeGraph.Visual
             currentEdgeInHold = null;
             currentEdgeInHold_Vis.isIncomplete = false;
             currentEdgeInHold_Vis = null;
-        }
-
-        public void TryDestroyInvalidConnection()
-        {
-            if (!currentEdgeInHold) return;
-
-            Destroy(currentEdgeInHold.gameObject);
-            ResetState();
         }
 
         private void UIfy(Canvas canvas, Transform target)
