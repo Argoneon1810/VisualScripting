@@ -6,6 +6,7 @@ namespace NodeGraph
         {
             return self != null;
         }
+        public virtual string GetResultInString() => "";
     }
 
     public class Result<T> : Result
@@ -21,5 +22,35 @@ namespace NodeGraph
         {
             Value = t;
         }
+    }
+
+    public class StringResult : Result<string>
+    {
+        public StringResult()
+        {
+            Value = "";
+        }
+
+        public StringResult(string value)
+        {
+            Value = value;
+        }
+
+        public override string GetResultInString() => GetValue();
+    }
+
+    public class FloatResult : Result<float>
+    {
+        public FloatResult()
+        {
+            Value = 0;
+        }
+
+        public FloatResult(float value)
+        {
+            Value = value;
+        }
+
+        public override string GetResultInString() => GetValue().ToString();
     }
 }

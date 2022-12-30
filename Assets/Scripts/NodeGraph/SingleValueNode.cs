@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace NodeGraph
 {
@@ -12,19 +11,15 @@ namespace NodeGraph
             set
             {
                 this.value = value;
-                (result as Result<float>)?.SetValue(value);
+                (result as FloatResult).SetValue(value);
             }
         }
 
+        protected override int NumOfInputs() => 0;
+
         protected override void Start()
         {
-            base.Start();
-            Value = value;
-        }
-
-        protected override int NumOfInputs()
-        {
-            return 0;
+            result = new FloatResult(value);
         }
     }
 }

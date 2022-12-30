@@ -5,6 +5,13 @@ namespace NodeGraph
 {
     public class AddNode : Node<float>
     {
+        protected override void Start()
+        {
+            result = new FloatResult();
+        }
+
+        protected override int NumOfInputs() => 2;
+
         protected override void Calculate()
         {
             float value = 0;
@@ -21,11 +28,6 @@ namespace NodeGraph
             {
                 (result as Result<float>).SetValue(value);
             }
-        }
-
-        protected override int NumOfInputs()
-        {
-            return 2;
         }
     }
 }

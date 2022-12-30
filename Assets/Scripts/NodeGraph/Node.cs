@@ -10,6 +10,18 @@ namespace NodeGraph
 
         protected Result result;
 
+        protected virtual void Start() { } //any node that inherits from Node must not have result variable initialized, as they will be using taken results from (a child / children).
+
+        protected virtual int NumOfInputs() => 0;
+
+        protected virtual void Calculate() { }
+
+        public Result Tick()
+        {
+            Calculate();
+            return result;
+        }
+
         public Node GetParent() => Parent;
         public void AssignParent(Node node)
         {
@@ -49,24 +61,11 @@ namespace NodeGraph
             if (Children.Count - 1 < index) return null;
             return Children[index];
         }
-
-        protected virtual void Calculate() { }
-
-        protected virtual int NumOfInputs()
-        {
-            return 0;
-        }
-
-        public Result Tick()
-        {
-            Calculate();
-            return result;
-        }
     }
 
     public class Node<T> : Node
     {
-        protected virtual void Start()
+        protected override void Start()
         {
             result = new Result<T>();
         }

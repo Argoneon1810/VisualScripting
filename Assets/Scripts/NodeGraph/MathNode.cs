@@ -15,7 +15,7 @@ namespace NodeGraph
 
     public class MathNode : Node<float>
     {
-        private static Result<float> Zero = new Result<float>();
+        private static FloatResult Zero = new FloatResult();
         public UnityEvent OnTypeChange;
         [SerializeField] private MathType type;
         public MathType Type
@@ -27,13 +27,20 @@ namespace NodeGraph
             }
         }
 
+        protected override void Start()
+        {
+            result = new FloatResult();
+        }
+
+        protected override int NumOfInputs() => 2;
+
         protected override void Calculate()
         {
             float toReturn = 0;
             try
             {
-                Result<float> a = (Children.Count - 1) >= 0 ? Children[0] ? Children[0].Tick() as Result<float> : Zero : Zero;
-                Result<float> b = (Children.Count - 1) >= 1 ? Children[1] ? Children[1].Tick() as Result<float> : Zero : Zero;
+                FloatResult a = (Children.Count - 1) >= 0 ? Children[0] ? Children[0].Tick() as FloatResult : Zero : Zero;
+                FloatResult b = (Children.Count - 1) >= 1 ? Children[1] ? Children[1].Tick() as FloatResult : Zero : Zero;
 
                 switch (type)
                 {
@@ -57,7 +64,7 @@ namespace NodeGraph
                         toReturn = a.GetValue() % b.GetValue();
                         break;
                 }
-                (result as Result<float>).SetValue(toReturn);
+                (result as FloatResult).SetValue(toReturn);
             }
             catch(NullReferenceException e)
             {
@@ -69,11 +76,6 @@ namespace NodeGraph
                 Debug.LogError(e.Message + "\n" + e.StackTrace);
                 Debug.Log("Latter child returned 0, which is invalid for " + type + "function.");
             }
-        }
-
-        protected override int NumOfInputs()
-        {
-            return 2;
         }
     }
 }

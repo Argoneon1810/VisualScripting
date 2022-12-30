@@ -3,10 +3,11 @@ using UnityEngine.Events;
 
 namespace NodeGraph
 {
-
     public class EchoNode : Node
     {
         public UnityEvent<string> OnEcho;
+
+        protected override int NumOfInputs() => 1;
 
         protected override void Calculate()
         {
@@ -14,23 +15,13 @@ namespace NodeGraph
             if (Children[0] == null) return;
 
             result = Children[0].Tick();
-            //dynamic
-            //dynamic unpacked = result;
-            //Echo(unpacked.GetValue().ToString());
-            //reflection
-            var unpacked = result.GetType().GetMethod("GetValue").Invoke(result, null);
-            Echo(unpacked.ToString());
+            Echo(result.GetResultInString());
         }
 
         private void Echo(string toEcho)
         {
             Debug.Log(toEcho);
             OnEcho?.Invoke(toEcho);
-        }
-
-        protected override int NumOfInputs()
-        {
-            return 1;
         }
     }
 }
