@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 
 namespace NodeGraph
@@ -15,6 +14,10 @@ namespace NodeGraph
             if (Children[0] == null) return;
 
             result = Children[0].Tick();
+            //dynamic
+            //dynamic unpacked = result;
+            //Echo(unpacked.GetValue().ToString());
+            //reflection
             var unpacked = result.GetType().GetMethod("GetValue").Invoke(result, null);
             Echo(unpacked.ToString());
         }
