@@ -1,5 +1,4 @@
 ﻿using Toast;
-using UnityEngine;
 
 namespace NodeGraph.Visual
 {

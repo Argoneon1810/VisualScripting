@@ -9,6 +9,7 @@ namespace NodeGraph
         [SerializeField] protected List<Node> Children = new List<Node>();
 
         protected Result result;
+        protected virtual Result Result => result;
 
         protected virtual void Start() { } //any node that inherits from Node must not have result variable initialized, as they will be using taken results from (a child / children).
 
@@ -19,7 +20,7 @@ namespace NodeGraph
         public Result Tick()
         {
             Calculate();
-            return result;
+            return Result;
         }
 
         public Node GetParent() => Parent;

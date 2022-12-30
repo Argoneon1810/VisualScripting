@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,7 @@ using TMPro;
 
 namespace NodeGraph.Visual
 {
-    public class MathNodeStateVis : NodeVis
+    public class MathNodeVis : NodeVis
     {
         MathNode self;
         TextMeshProUGUI description;
@@ -19,7 +20,7 @@ namespace NodeGraph.Visual
                 new TMP_Dropdown.OptionData(MathType.Modulus.ToString()),
         };
 
-    void Start()
+        void Start()
         {
             self = GetComponent<MathNode>();
             description = GetComponentInChildren<TextMeshProUGUI>();

@@ -15,6 +15,8 @@ namespace NodeGraph
             if (Children[0] == null) return;
 
             result = Children[0].Tick();
+            
+            if (!result) return;
             Echo(result.GetResultInString());
         }
 

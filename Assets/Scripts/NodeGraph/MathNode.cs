@@ -15,7 +15,7 @@ namespace NodeGraph
 
     public class MathNode : Node<float>
     {
-        private static FloatResult Zero = new FloatResult();
+        private static readonly FloatResult Zero = new FloatResult();
         public UnityEvent OnTypeChange;
         [SerializeField] private MathType type;
         public MathType Type
