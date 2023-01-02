@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using EaseOfUse.Console;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace NodeGraph
@@ -43,12 +44,12 @@ namespace NodeGraph
         {
             if(processOptions.ContainsKey(name))
             {
-                Debug.LogError("Key already exists");
+                Console.PrintError("Key already exists");
                 return;
             }
             if (processOptionToAdd == null)
             {
-                Debug.LogError("Value is null");
+                Console.PrintError("Value is null");
                 return;
             }
             processOptions.Add(name, processOptionToAdd);

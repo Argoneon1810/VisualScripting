@@ -1,4 +1,4 @@
-using System;
+using EaseOfUse.BooleanTrigger;
 using UnityEngine;
 
 namespace CookNodeGraph
@@ -15,9 +15,8 @@ namespace CookNodeGraph
 
         private void Update()
         {
-            if(debugAttach)
+            if(BooleanTrigger.Trigger(ref debugAttach))
             {
-                debugAttach = false;
                 TryAttachLeft(debugLeft);
                 TryAttachRight(debugRight);
             }

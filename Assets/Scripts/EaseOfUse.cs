@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Reflection;
+using System.Text;
+using System;
 
 namespace EaseOfUse
 {
@@ -128,6 +130,33 @@ namespace EaseOfUse
                 var type = assembly.GetType("UnityEditor.LogEntries");
                 var method = type.GetMethod("Clear");
                 method.Invoke(new object(), null);
+            }
+
+            public static void Print(params object[] args) => Log(ArgsToString(args), Debug.Log);
+            public static void PrintError(params object[] args) => Log(ArgsToString(args), Debug.LogError);
+
+            private static void Log(string s, Action<string> print) => print?.Invoke(s);
+            private static string ArgsToString(object[] args)
+            {
+                StringBuilder sb = new StringBuilder();
+                foreach (object arg in args)
+                    sb.Append(arg.ToString());
+                return sb.ToString();
+            }
+        }
+    }
+    namespace BooleanTrigger
+    {
+        public class BooleanTrigger
+        {
+            public static bool Trigger(ref bool flag)
+            {
+                if (flag)
+                {
+                    flag = false;
+                    return true;
+                }
+                return false;
             }
         }
     }

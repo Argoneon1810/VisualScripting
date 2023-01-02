@@ -1,6 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
+using EaseOfUse.Console;
 
 namespace NodeGraph
 {
@@ -55,26 +55,26 @@ namespace NodeGraph
                         break;
                     case MathType.Divide:
                         if (b.GetValue() == 0)
-                            throw new DivideByZeroException();
+                            throw new System.DivideByZeroException();
                         toReturn = a.GetValue() / b.GetValue();
                         break;
                     case MathType.Modulus:
                         if (b.GetValue() == 0)
-                            throw new DivideByZeroException();
+                            throw new System.DivideByZeroException();
                         toReturn = a.GetValue() % b.GetValue();
                         break;
                 }
                 (result as FloatResult).SetValue(toReturn);
             }
-            catch(NullReferenceException e)
+            catch(System.NullReferenceException e)
             {
-                Debug.LogError(e.Message + "\n" + e.StackTrace);
-                Debug.Log("At least one of its children is not a number node.");
+                Console.PrintError(e.Message, "\n", e.StackTrace);
+                Console.Print("At least one of its children is not a number node.");
             }
-            catch(DivideByZeroException e)
+            catch(System.DivideByZeroException e)
             {
-                Debug.LogError(e.Message + "\n" + e.StackTrace);
-                Debug.Log("Latter child returned 0, which is invalid for " + type + "function.");
+                Console.PrintError(e.Message, "\n", e.StackTrace);
+                Console.Print("Latter child returned 0, which is invalid for ", type, "function.");
             }
         }
     }

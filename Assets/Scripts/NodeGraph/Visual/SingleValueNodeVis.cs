@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using TMPro;
+using EaseOfUse.Console;
 
 namespace NodeGraph.Visual
 {
@@ -21,11 +22,11 @@ namespace NodeGraph.Visual
                 self.Value = parsed;
             }
             else if (changedValue.Equals("-") || changedValue.Equals("."))
-                Debug.Log("Not a number, but waiting for one as it might follow afterwards.");
+                Console.Print("Not a number, but waiting for one as it might follow afterwards.");
             else
             {
                 self.Value = 0;
-                Debug.Log("Not a number.");
+                Console.Print("Not a number.");
             }
         }
     }

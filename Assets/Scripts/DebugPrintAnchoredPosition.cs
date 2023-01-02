@@ -1,5 +1,6 @@
 using UnityEngine;
 using EaseOfUse.VectorCalculation;
+using EaseOfUse.Console;
 
 [ExecuteInEditMode]
 public class DebugPrintAnchoredPosition : MonoBehaviour
@@ -8,6 +9,6 @@ public class DebugPrintAnchoredPosition : MonoBehaviour
     {
         var rt = transform.rt();
         if (rt)
-            Debug.Log(rt.anchoredPosition);
+            Console.Print(rt.anchoredPosition);
     }
 }

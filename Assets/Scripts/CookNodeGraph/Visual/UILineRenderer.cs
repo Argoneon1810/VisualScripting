@@ -23,8 +23,9 @@ namespace CookNodeGraph
                 protected set => rootCanvas = value;
             }
 
-            protected void Awake()
+            protected override void Awake()
             {
+                base.Awake();
                 Initialize();
             }
 

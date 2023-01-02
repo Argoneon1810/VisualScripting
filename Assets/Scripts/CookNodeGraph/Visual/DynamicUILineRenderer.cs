@@ -8,17 +8,17 @@ namespace CookNodeGraph
         {
             public RectTransform handle_From, handle_To;
             Vector3 lastPos_From, lastPos_To;
-            Camera camera;
+            Camera mainCamera;
 
             protected override void Initialize()
             {
                 base.Initialize();
-                camera = canvas.worldCamera ? canvas.worldCamera : Camera.main;
+                mainCamera = canvas.worldCamera ? canvas.worldCamera : Camera.main;
             }
 
             protected void Update()
             {
-                if(!camera) Initialize();
+                if(!mainCamera) Initialize();
 
                 bool isDirty = false;
 

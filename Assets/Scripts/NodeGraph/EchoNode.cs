@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿using EaseOfUse.Console;
 using UnityEngine.Events;
 
 namespace NodeGraph
@@ -6,6 +6,7 @@ namespace NodeGraph
     public class EchoNode : Node
     {
         public UnityEvent<string> OnEcho;
+        public bool clearLogBeforePrint;
 
         protected override int NumOfInputs() => 1;
 
@@ -22,7 +23,9 @@ namespace NodeGraph
 
         private void Echo(string toEcho)
         {
-            Debug.Log(toEcho);
+            if (clearLogBeforePrint)
+                Console.ClearLog();
+            Console.Print(toEcho);
             OnEcho?.Invoke(toEcho);
         }
     }

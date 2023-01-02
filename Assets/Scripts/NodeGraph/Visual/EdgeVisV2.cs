@@ -4,6 +4,7 @@ using EaseOfUse.VectorCalculation;
 using EaseOfUse.Console;
 using System.Linq;
 using EaseOfUse.CanvasScale;
+using EaseOfUse.BooleanTrigger;
 
 namespace NodeGraph.Visual
 {
@@ -95,11 +96,8 @@ namespace NodeGraph.Visual
                 skipThisFrame = true;
             }
 
-            if (skipThisFrame)
-            {
-                skipThisFrame = false;
+            if (BooleanTrigger.Trigger(ref skipThisFrame))
                 return;
-            }
 
             if (lastOutlineWidth != outlineWidth)
             {
@@ -133,10 +131,8 @@ namespace NodeGraph.Visual
             if (lastPos_From != screenPos_From || lastPos_To != screenPos_To)
                 isDirty = true;
 
-            if (isDirty)
+            if (BooleanTrigger.Trigger(ref isDirty))
             {
-                isDirty = false;
-
                 Vector3 dir = screenPos_From - screenPos_To;
                 Vector3 dir_Normalized = dir.normalized;
                 float dir_Magnitude = dir.magnitude;
@@ -198,7 +194,7 @@ namespace NodeGraph.Visual
             Component[] comps_NodeVis = node.GetComponents<Component>().Where((comp) => comp is NodeVis).ToArray();
             if (comps_NodeVis == null || comps_NodeVis.Length == 0)
             {
-                Debug.LogError("NodeVis must exist, but something went wrong");
+                Console.PrintError("NodeVis must exist, but something went wrong");
                 return null;
             }
             return comps_NodeVis[0] as NodeVis;

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using EaseOfUse.BooleanTrigger;
+using UnityEngine;
 
 namespace NodeGraph
 {
@@ -25,9 +26,8 @@ namespace NodeGraph
             if (Children.Count == 0) return;
             if (Children[0] == null) return;
 
-            if (bInterruptResolved)
+            if (BooleanTrigger.Trigger(ref bInterruptResolved))
             {
-                bInterruptResolved = false;
                 result = Children[0].Tick();
             }
             //else result = Empty;

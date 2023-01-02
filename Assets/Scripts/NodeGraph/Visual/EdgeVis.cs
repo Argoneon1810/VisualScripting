@@ -2,6 +2,8 @@
 using UnityEngine;
 using EaseOfUse.CanvasScale;
 using System.Linq;
+using EaseOfUse.BooleanTrigger;
+using EaseOfUse.Console;
 
 namespace NodeGraph.Visual
 {
@@ -13,26 +15,23 @@ namespace NodeGraph.Visual
         public bool isIncomplete = true;
 
         Edge self;
-        Camera camera;
+        Camera mainCamera;
 
         Vector3 lastPos_From, lastPos_To;
 
         protected override void Initialize()
         {
             base.Initialize();
-            camera = canvas.worldCamera ? canvas.worldCamera : Camera.main;
+            mainCamera = canvas.worldCamera ? canvas.worldCamera : Camera.main;
             self = GetComponent<Edge>();
         }
 
         protected void Update()
         {
-            if (mannualInitialize)
-            {
-                mannualInitialize = false;
+            if (BooleanTrigger.Trigger(ref mannualInitialize))
                 MannualInitialize();
-            }
 
-            if (!camera) Initialize();
+            if (!mainCamera) Initialize();
 
             bool isDirty = false;
 
@@ -87,7 +86,7 @@ namespace NodeGraph.Visual
             if (parentComp_NodeVis == null || parentComp_NodeVis.Length == 0 ||
                 childComp_NodeVis == null || childComp_NodeVis.Length == 0)
             {
-                Debug.LogError("NodeVis must exist, but something went wrong");
+                Console.PrintError("NodeVis must exist, but something went wrong");
                 return;
             }
 

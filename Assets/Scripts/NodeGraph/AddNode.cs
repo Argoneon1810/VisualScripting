@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 
 namespace NodeGraph
 {
@@ -22,7 +21,7 @@ namespace NodeGraph
             }
             catch (NullReferenceException e)
             {
-                Debug.LogError(e.Message);
+                EaseOfUse.Console.Console.PrintError(e.Message);
             }
             finally
             {

@@ -1,5 +1,4 @@
-using System;
-using UnityEngine;
+using EaseOfUse.Console;
 
 namespace CookNodeGraph
 {
@@ -38,7 +37,7 @@ namespace CookNodeGraph
                 signalReceiver = null;
             else
                 if (showDebugLogs)
-                    Debug.LogError("priorly attached receiver is not equal to the SignalReceiver handed over argument");
+                    Console.PrintError("priorly attached receiver is not equal to the SignalReceiver handed over argument");
         }
 
         public int Count()
