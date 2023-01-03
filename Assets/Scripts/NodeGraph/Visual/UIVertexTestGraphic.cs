@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿using EaseOfUse.CanvasScale;
+using UnityEngine;
 using UnityEngine.UI;
-using EaseOfUse.CanvasScale;
 
 namespace NodeGraph.Visual
 {
@@ -19,7 +19,7 @@ namespace NodeGraph.Visual
 
         private Vector2 GetPositionMatchingMode(GameObject of)
         {
-            switch(mode)
+            switch (mode)
             {
                 default:
                 case VertexMode.WorldPos:
@@ -57,18 +57,18 @@ namespace NodeGraph.Visual
             vertex.position = new Vector2(toPos.x, fromPos.y);
             vh.AddVert(vertex);
 
-            vh.AddTriangle(0,1,2);
-            vh.AddTriangle(0,2,3);
+            vh.AddTriangle(0, 1, 2);
+            vh.AddTriangle(0, 2, 3);
         }
 
         private void Update()
         {
-            if(lastPosFrom != from.transform.position)
+            if (lastPosFrom != from.transform.position)
             {
                 lastPosFrom = from.transform.position;
                 SetVerticesDirty();
             }
-            if(lastPosTo != to.transform.position)
+            if (lastPosTo != to.transform.position)
             {
                 lastPosTo = to.transform.position;
                 SetVerticesDirty();

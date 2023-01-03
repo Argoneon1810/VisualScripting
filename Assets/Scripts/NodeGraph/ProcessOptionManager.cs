@@ -1,4 +1,4 @@
-﻿using EaseOfUse.Console;
+﻿using EaseOfUse.ConsoleExpansion;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -42,14 +42,14 @@ namespace NodeGraph
 
         public void EnlistNewProcessOption(string name, ProcessOption processOptionToAdd)
         {
-            if(processOptions.ContainsKey(name))
+            if (processOptions.ContainsKey(name))
             {
-                Console.PrintError("Key already exists");
+                ConsoleExpansion.PrintError("Key already exists");
                 return;
             }
             if (processOptionToAdd == null)
             {
-                Console.PrintError("Value is null");
+                ConsoleExpansion.PrintError("Value is null");
                 return;
             }
             processOptions.Add(name, processOptionToAdd);

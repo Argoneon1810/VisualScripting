@@ -7,7 +7,7 @@ namespace NodeGraph.Visual
         public void OnEcho(string toEcho)
         {
             ToastManager manager = ToastManager.Instance;
-            if(manager)
+            if (manager)
                 manager.MakeText(toEcho, Toast.Toast.LENGTH_SHORT).Show();
         }
     }

@@ -62,6 +62,14 @@ namespace NodeGraph
             if (Children.Count - 1 < index) return null;
             return Children[index];
         }
+
+        public void RemoveAtIfExists(int index)
+        {
+            if (Children.Count == 0) return;
+            Node toRemove = Children[index];
+            if (toRemove == null) return;
+            Children.RemoveAt(index);
+        }
     }
 
     public class Node<T> : Node

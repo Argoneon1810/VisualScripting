@@ -1,4 +1,4 @@
-﻿using EaseOfUse.Console;
+﻿using EaseOfUse.ConsoleExpansion;
 using UnityEngine.Events;
 
 namespace NodeGraph
@@ -16,7 +16,7 @@ namespace NodeGraph
             if (Children[0] == null) return;
 
             result = Children[0].Tick();
-            
+
             if (!result) return;
             Echo(result.GetResultInString());
         }
@@ -24,8 +24,8 @@ namespace NodeGraph
         private void Echo(string toEcho)
         {
             if (clearLogBeforePrint)
-                Console.ClearLog();
-            Console.Print(toEcho);
+                ConsoleExpansion.ClearLog();
+            ConsoleExpansion.Print(toEcho);
             OnEcho?.Invoke(toEcho);
         }
     }

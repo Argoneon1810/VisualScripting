@@ -1,14 +1,14 @@
+using EaseOfUse;
+using EaseOfUse.ConsoleExpansion;
 using UnityEngine;
-using EaseOfUse.VectorCalculation;
-using EaseOfUse.Console;
 
 [ExecuteInEditMode]
 public class DebugPrintAnchoredPosition : MonoBehaviour
 {
     void Update()
     {
-        var rt = transform.rt();
+        var rt = transform.GetRTOrDefault();
         if (rt)
-            Console.Print(rt.anchoredPosition);
+            ConsoleExpansion.Print(rt.anchoredPosition);
     }
 }

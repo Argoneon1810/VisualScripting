@@ -1,10 +1,8 @@
+using EaseOfUse;
+using EaseOfUse.BooleanTrigger;
+using EaseOfUse.CanvasScale;
 using UnityEngine;
 using UnityEngine.UI;
-using EaseOfUse.VectorCalculation;
-using EaseOfUse.Console;
-using System.Linq;
-using EaseOfUse.CanvasScale;
-using EaseOfUse.BooleanTrigger;
 
 namespace NodeGraph.Visual
 {
@@ -15,7 +13,6 @@ namespace NodeGraph.Visual
         [SerializeField] float width, outlineWidth;
         float lastOutlineWidth = float.NegativeInfinity;
 
-        [SerializeField, HideInInspector] Edge self;
         [SerializeField] Canvas rootCanvas;
         [SerializeField, HideInInspector] RectTransform rectTransform;
 
@@ -26,7 +23,8 @@ namespace NodeGraph.Visual
 
         public bool isIncomplete = true;
 
-        [SerializeField] Canvas RootCanvas
+        [SerializeField]
+        Canvas RootCanvas
         {
             get
             {
@@ -36,32 +34,35 @@ namespace NodeGraph.Visual
             }
         }
 
-        [SerializeField] Transform FromKnob
+        [SerializeField]
+        Transform FromKnob
         {
             get
             {
                 if (!fromKnob && self.GetParent())
-                    fromKnob = GetNodeVisOf(self.GetParent()).GetInputKnobAt(self.GetParent().IndexOf(self)).transform;
+                    fromKnob = self.GetParent().transform;
                 return fromKnob;
             }
         }
 
-        [SerializeField] Transform ToKnob
+        [SerializeField]
+        Transform ToKnob
         {
             get
             {
-                if (!toKnob && self.GetChild())
-                    toKnob = GetNodeVisOf(self.GetChild()).GetOutputKnobAt(0).transform; // TODO: 출력 노드 개수가 바뀌면 수정 필요
+                if (!toKnob && (self as Edge).GetChild())
+                    toKnob = (self as Edge).GetChild().transform;
                 return toKnob;
             }
         }
 
-        [SerializeField] RectTransform EdgeBodyTransform
+        [SerializeField]
+        RectTransform EdgeBodyTransform
         {
             get
             {
                 if (!edgeBodyTransform)
-                    edgeBodyTransform = transform.GetChild(1).rt();
+                    edgeBodyTransform = transform.GetChild(1).GetRTOrDefault();
                 return edgeBodyTransform;
             }
         }
@@ -82,14 +83,14 @@ namespace NodeGraph.Visual
         private void Start()
         {
             self = GetComponent<Edge>();
-            rectTransform = transform.rt();
+            rectTransform = transform.GetRTOrDefault();
         }
 
         private void Update()
         {
             if (transform.childCount != 2)
             {
-                for (int i = transform.childCount-1; i >= 0; --i)
+                for (int i = transform.childCount - 1; i >= 0; --i)
                     DestroyImmediate(transform.GetChild(i).gameObject);
                 CreateOutline();
                 CreateBody();
@@ -114,13 +115,17 @@ namespace NodeGraph.Visual
             if (isIncomplete)
             {
                 if (FromKnob)
-                    screenPos_From = RectTransformUtility.CalculateRelativeRectTransformBounds(RootCanvas.transform, FromKnob).center;
+                    screenPos_From =
+                        RectTransformUtility.CalculateRelativeRectTransformBounds(RootCanvas.transform, FromKnob).center;
                 else
-                    screenPos_From = CanvasScale.GetMousePositionInCanvas(InputManager.GetMousePosition(), RootCanvas);
+                    screenPos_From =
+                        CanvasScale.GetMousePositionInCanvas(InputManager.GetMousePosition(), RootCanvas);
                 if (ToKnob)
-                    screenPos_To = RectTransformUtility.CalculateRelativeRectTransformBounds(RootCanvas.transform, ToKnob).center;
+                    screenPos_To =
+                        RectTransformUtility.CalculateRelativeRectTransformBounds(RootCanvas.transform, ToKnob).center;
                 else
-                    screenPos_To = CanvasScale.GetMousePositionInCanvas(InputManager.GetMousePosition(), RootCanvas);
+                    screenPos_To =
+                        CanvasScale.GetMousePositionInCanvas(InputManager.GetMousePosition(), RootCanvas);
             }
             else
             {
@@ -139,7 +144,10 @@ namespace NodeGraph.Visual
                 float angleDeg = Mathf.Acos(Vector2.Dot(dir_Normalized, Vector2.right)) * Mathf.Rad2Deg;
                 if (screenPos_From.y < screenPos_To.y) angleDeg *= -1;
 
-                Vector3 calculatedPosition = screenPos_To + dir_Normalized * dir_Magnitude / 2 - transform.parent.rt().anchoredPosition.ToVector3();
+                Vector3 calculatedPosition =
+                    screenPos_To +
+                    dir_Normalized * dir_Magnitude / 2 -
+                    transform.parent.GetRTOrDefault().anchoredPosition.ToVector3();
 
                 rectTransform.anchoredPosition = calculatedPosition;
                 rectTransform.localRotation = Quaternion.Euler(0, 0, angleDeg);
@@ -187,17 +195,6 @@ namespace NodeGraph.Visual
             Image outlineImage = outlineGameObject.AddComponent<Image>();
             outlineImage.color = outlineColor;
             outlineImage.raycastTarget = false;
-        }
-
-        private NodeVis GetNodeVisOf(Node node)
-        {
-            Component[] comps_NodeVis = node.GetComponents<Component>().Where((comp) => comp is NodeVis).ToArray();
-            if (comps_NodeVis == null || comps_NodeVis.Length == 0)
-            {
-                Console.PrintError("NodeVis must exist, but something went wrong");
-                return null;
-            }
-            return comps_NodeVis[0] as NodeVis;
         }
 
         public void SetVisuals(float bodyWidth, Color bodyColor, float outlineWidth, Color outlineColor)

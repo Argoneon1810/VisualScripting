@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿using EaseOfUse.ConsoleExpansion;
+using UnityEngine;
 using UnityEngine.Events;
-using EaseOfUse.Console;
 
 namespace NodeGraph
 {
@@ -21,7 +21,8 @@ namespace NodeGraph
         public MathType Type
         {
             get => type;
-            set {
+            set
+            {
                 type = value;
                 OnTypeChange?.Invoke();
             }
@@ -66,15 +67,15 @@ namespace NodeGraph
                 }
                 (result as FloatResult).SetValue(toReturn);
             }
-            catch(System.NullReferenceException e)
+            catch (System.NullReferenceException e)
             {
-                Console.PrintError(e.Message, "\n", e.StackTrace);
-                Console.Print("At least one of its children is not a number node.");
+                ConsoleExpansion.PrintError(e.Message, "\n", e.StackTrace);
+                ConsoleExpansion.Print("At least one of its children is not a number node.");
             }
-            catch(System.DivideByZeroException e)
+            catch (System.DivideByZeroException e)
             {
-                Console.PrintError(e.Message, "\n", e.StackTrace);
-                Console.Print("Latter child returned 0, which is invalid for ", type, "function.");
+                ConsoleExpansion.PrintError(e.Message, "\n", e.StackTrace);
+                ConsoleExpansion.Print("Latter child returned 0, which is invalid for ", type, "function.");
             }
         }
     }

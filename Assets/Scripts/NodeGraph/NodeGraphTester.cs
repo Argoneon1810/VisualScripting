@@ -35,7 +35,7 @@ namespace NodeGraph
                 a.AssignChildren(b);
                 ng.GetRoot().AssignChildren(a);
             }
-            else if(testOption == TestOption.MathType)
+            else if (testOption == TestOption.MathType)
             {
                 Node<float> one = new GameObject("one").AddComponent<SingleValueNode>();
                 (one as SingleValueNode).Value = 5;

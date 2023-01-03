@@ -31,7 +31,7 @@ namespace NodeGraph
             tickDelta = timeSinceLastTick / fullTickInterval;
             Extra_OnTickDeltaChanged?.Invoke(tickDelta);
         }
-        
+
         public EndNode GetRoot()
         {
             return root;

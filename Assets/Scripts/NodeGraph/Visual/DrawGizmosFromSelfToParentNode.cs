@@ -1,4 +1,4 @@
-﻿using EaseOfUse.Console;
+﻿using EaseOfUse.ConsoleExpansion;
 using UnityEngine;
 
 namespace NodeGraph.Visual
@@ -19,14 +19,14 @@ namespace NodeGraph.Visual
             {
                 if (!self.GetParent())
                 {
-                    if (!silence) Console.PrintError("This node has no parent to draw a line gizmo.");
+                    if (!silence) ConsoleExpansion.PrintError("This node has no parent to draw a line gizmo.");
                     return;
                 }
 
                 Canvas canvas = self.transform.GetComponentInParent<Canvas>();
                 if (!canvas)
                 {
-                    if (!silence) Console.PrintError("This node has no canvas to draw a line gizmo.");
+                    if (!silence) ConsoleExpansion.PrintError("This node has no canvas to draw a line gizmo.");
                     return;
                 }
 
@@ -37,7 +37,7 @@ namespace NodeGraph.Visual
             }
             catch (System.Exception e)
             {
-                if (!silence) Console.PrintError(e.Message + "\n" + e.StackTrace);
+                if (!silence) ConsoleExpansion.PrintError(e.Message + "\n" + e.StackTrace);
             }
         }
     }

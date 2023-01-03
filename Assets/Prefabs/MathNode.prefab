@@ -1582,6 +1582,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3706097108952311029}
+  - component: {fileID: 1142271965}
   - component: {fileID: 48345720741824276}
   - component: {fileID: 6376651823724449233}
   m_Layer: 5
@@ -1612,6 +1613,22 @@ RectTransform:
   m_AnchoredPosition: {x: -10, y: -58.5}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 1, y: 1}
+--- !u!114 &1142271965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3797527883936797806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3eea452ee3ab624689ab162b5058ea6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Parent: {fileID: 0}
+  Children:
+  - {fileID: 293660427529559565}
+  knobType: 1
 --- !u!114 &48345720741824276
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1624,9 +1641,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f201375dc27ed14183390e5b34ef474, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  self: {fileID: 293660427529559565}
-  type: 1
-  index: 0
+  self: {fileID: 1142271965}
 --- !u!114 &6376651823724449233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1772,6 +1787,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8757342219299184366}
+  - component: {fileID: 1882346415}
   - component: {fileID: 9182808891467584464}
   - component: {fileID: 8919148523273178582}
   m_Layer: 5
@@ -1802,6 +1818,21 @@ RectTransform:
   m_AnchoredPosition: {x: 10, y: -101.5}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0, y: 1}
+--- !u!114 &1882346415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4031391619065403306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3eea452ee3ab624689ab162b5058ea6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Parent: {fileID: 293660427529559565}
+  Children: []
+  knobType: 0
 --- !u!114 &9182808891467584464
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1814,9 +1845,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f201375dc27ed14183390e5b34ef474, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  self: {fileID: 293660427529559565}
-  type: 0
-  index: 1
+  self: {fileID: 1882346415}
 --- !u!114 &8919148523273178582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2096,6 +2125,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9043936736422154239}
+  - component: {fileID: 524788422}
   - component: {fileID: 8537740178924829229}
   - component: {fileID: 5420559415003330381}
   m_Layer: 5
@@ -2126,6 +2156,21 @@ RectTransform:
   m_AnchoredPosition: {x: 10, y: -58.5}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0, y: 1}
+--- !u!114 &524788422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5305524849336802034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3eea452ee3ab624689ab162b5058ea6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Parent: {fileID: 293660427529559565}
+  Children: []
+  knobType: 0
 --- !u!114 &8537740178924829229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2138,9 +2183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f201375dc27ed14183390e5b34ef474, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  self: {fileID: 293660427529559565}
-  type: 0
-  index: 0
+  self: {fileID: 524788422}
 --- !u!114 &5420559415003330381
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2404,8 +2447,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f94b62aa8e5b9b14384d621f2d655ebc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Parent: {fileID: 0}
-  Children: []
+  Parent: {fileID: 1142271965}
+  Children:
+  - {fileID: 524788422}
+  - {fileID: 1882346415}
   OnTypeChange:
     m_PersistentCalls:
       m_Calls:
@@ -2434,11 +2479,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70a0085561292e64c8971bb44de0f36c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputKnobs:
-  - {fileID: 8537740178924829229}
-  - {fileID: 9182808891467584464}
-  outputKnobs:
-  - {fileID: 48345720741824276}
+  self: {fileID: 293660427529559565}
 --- !u!1 &6814243336432648791
 GameObject:
   m_ObjectHideFlags: 0
@@ -2497,7 +2538,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.17, g: 0.17, b: 0.17, a: 1}
+  m_Color: {r: 0.22, g: 0.22, b: 0.22, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

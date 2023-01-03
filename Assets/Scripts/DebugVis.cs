@@ -1,7 +1,6 @@
+using EaseOfUse.VectorCalculation;
 using TMPro;
 using UnityEngine;
-
-using EaseOfUse.VectorCalculation;
 
 public class DebugVis : MonoBehaviour
 {
@@ -9,7 +8,7 @@ public class DebugVis : MonoBehaviour
     public TextMeshPro angleTxt, tangentTxt;
     public float angleRad;
     public float distance;
-    [Range(1,200)] public float step = 1;
+    [Range(1, 200)] public float step = 1;
 
     Vector3 selfPos, otherPos, tan;
     float signedAngle = 0;
@@ -38,9 +37,9 @@ public class DebugVis : MonoBehaviour
         if (angleRad > 2 * Mathf.PI) angleRad = 0;
 
         selfPos = transform.position;
-        otherPos = selfPos  + Quaternion.Euler(0, angleRad * Mathf.Rad2Deg, 0) * Vector3.forward * distance;
+        otherPos = selfPos + Quaternion.Euler(0, angleRad * Mathf.Rad2Deg, 0) * Vector3.forward * distance;
         signedAngle = VectorCalculation.SignedAngle(selfPos, otherPos, transform.forward);
-        tan = (otherPos - selfPos).normalized.Tangent(Vector3.forward);
+        tan = VectorCalculation.Tangent((otherPos - selfPos).normalized, Vector3.forward);
 
         other.transform.position = otherPos;
         angleTxt.text = string.Format("{0,10} {1,10:F2}\n", "angle:", signedAngle);

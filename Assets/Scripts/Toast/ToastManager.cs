@@ -11,7 +11,7 @@ namespace Toast
 
         private void Awake()
         {
-            if(Instance)
+            if (Instance)
             {
                 Destroy(gameObject);
                 return;

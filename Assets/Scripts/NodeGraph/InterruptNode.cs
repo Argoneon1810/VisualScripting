@@ -1,5 +1,4 @@
 ﻿using EaseOfUse.BooleanTrigger;
-using UnityEngine;
 
 namespace NodeGraph
 {
@@ -9,7 +8,8 @@ namespace NodeGraph
 
         protected override Result Result
         {
-            get {
+            get
+            {
                 Result toReturn = result;
                 //result = Empty;
                 result = null;

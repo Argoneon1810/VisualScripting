@@ -1,9 +1,7 @@
 ﻿using CookNodeGraph.Visual;
-using UnityEngine;
-using EaseOfUse.CanvasScale;
-using System.Linq;
 using EaseOfUse.BooleanTrigger;
-using EaseOfUse.Console;
+using EaseOfUse.CanvasScale;
+using UnityEngine;
 
 namespace NodeGraph.Visual
 {
@@ -81,17 +79,8 @@ namespace NodeGraph.Visual
 
         private void MannualInitialize()
         {
-            Component[] parentComp_NodeVis = self.GetParent().GetComponents<Component>().Where((comp) => comp is NodeVis).ToArray();
-            Component[] childComp_NodeVis = self.GetChild().GetComponents<Component>().Where((comp) => comp is NodeVis).ToArray();
-            if (parentComp_NodeVis == null || parentComp_NodeVis.Length == 0 ||
-                childComp_NodeVis == null || childComp_NodeVis.Length == 0)
-            {
-                Console.PrintError("NodeVis must exist, but something went wrong");
-                return;
-            }
-
-            fromKnob = (parentComp_NodeVis[0] as NodeVis).GetInputKnobOf(self).transform;
-            toKnob = (childComp_NodeVis[0] as NodeVis).GetOutputKnobOf(self).transform;
+            fromKnob = self.GetParent().transform;
+            toKnob = self.GetChild().transform;
         }
     }
 }

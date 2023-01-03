@@ -18,7 +18,7 @@ namespace CookNodeGraph
 
             protected void Update()
             {
-                if(!mainCamera) Initialize();
+                if (!mainCamera) Initialize();
 
                 bool isDirty = false;
 

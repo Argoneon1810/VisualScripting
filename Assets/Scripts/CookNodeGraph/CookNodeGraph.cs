@@ -67,7 +67,7 @@ namespace CookNodeGraph
 
         void Update()
         {
-            if(showDebugLogs)
+            if (showDebugLogs)
                 print("CookGraph:\tUpdate()\t\t\tGenerating Tick");
             OnTick?.Invoke();
         }

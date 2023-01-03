@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace NodeGraph.Visual
 {
     public enum KnobType
@@ -8,28 +6,23 @@ namespace NodeGraph.Visual
         Output
     }
 
-    public class Knob : MonoBehaviour
+    public class KnobVis : NodeVis
     {
-        [SerializeField] private Node self;
-        [SerializeField] private KnobType type;
-        [SerializeField] private int index;
-        public int Index => index;
-
         bool pointerStaying;
 
         public void OnDrop()
         {
-            ConnectionManagerV2.Instance.CompleteConnection(this, type);
+            ConnectionManagerV3.Instance.CompleteConnection((self as Knob), (self as Knob).KnobType);
         }
 
         public void OnBeginDrag()
         {
-            ConnectionManagerV2.Instance.CreateConenction(this, type);
+            ConnectionManagerV3.Instance.CreateConnection((self as Knob), (self as Knob).KnobType);
         }
 
         public void OnEndDrag()
         {
-            ConnectionManagerV2.Instance.TryDestroyInvalidConnection();
+            ConnectionManagerV3.Instance.TryCleanup();
         }
 
         public void OnPointerEnter()

@@ -223,6 +223,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4289459505450820659}
+  - component: {fileID: 268974242}
   - component: {fileID: 3292986180639682606}
   - component: {fileID: 868856914}
   m_Layer: 5
@@ -253,6 +254,22 @@ RectTransform:
   m_AnchoredPosition: {x: -10, y: -15.5}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 1, y: 1}
+--- !u!114 &268974242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4348802010667308200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3eea452ee3ab624689ab162b5058ea6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Parent: {fileID: 0}
+  Children:
+  - {fileID: 5592806093594077433}
+  knobType: 1
 --- !u!114 &3292986180639682606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -265,9 +282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f201375dc27ed14183390e5b34ef474, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  self: {fileID: 5592806093594077433}
-  type: 1
-  index: 0
+  self: {fileID: 268974242}
 --- !u!114 &868856914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -488,6 +503,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8460873458768252729}
+  - component: {fileID: 196116093}
   - component: {fileID: 5810079733069102770}
   - component: {fileID: 4524936128871576626}
   m_Layer: 5
@@ -518,6 +534,21 @@ RectTransform:
   m_AnchoredPosition: {x: 10, y: -15.5}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0, y: 1}
+--- !u!114 &196116093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4704161145326377524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3eea452ee3ab624689ab162b5058ea6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Parent: {fileID: 5592806093594077433}
+  Children: []
+  knobType: 0
 --- !u!114 &5810079733069102770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -530,9 +561,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f201375dc27ed14183390e5b34ef474, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  self: {fileID: 5592806093594077433}
-  type: 0
-  index: 0
+  self: {fileID: 196116093}
 --- !u!114 &4524936128871576626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -930,9 +959,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9758026e142448847bec4f6dd117d192, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Parent: {fileID: 0}
-  Children: []
-  type: 1
+  Parent: {fileID: 268974242}
+  Children:
+  - {fileID: 196116093}
   OnEcho:
     m_PersistentCalls:
       m_Calls:
@@ -948,6 +977,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  clearLogBeforePrint: 1
 --- !u!114 &5592806093594077434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -960,10 +990,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cea6a67f2169c149b1cded854727971, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputKnobs:
-  - {fileID: 5810079733069102770}
-  outputKnobs:
-  - {fileID: 3292986180639682606}
+  self: {fileID: 5592806093594077433}
 --- !u!1 &6665189500594448765
 GameObject:
   m_ObjectHideFlags: 0

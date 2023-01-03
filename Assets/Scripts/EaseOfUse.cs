@@ -1,11 +1,40 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
+﻿using System;
 using System.Reflection;
 using System.Text;
-using System;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace EaseOfUse
 {
+    public static class Extensions
+    {
+        public static float GetNonZeroElement(this Vector3 target)
+        {
+            for (int i = 0; i < 3; ++i)
+            {
+                if (i == 0 && target.x != 0)
+                    return target.x;
+                if (i == 1 && target.y != 0)
+                    return target.y;
+                if (i == 2 && target.z != 0)
+                    return target.z;
+            }
+            return 0;
+        }
+
+        public static Color WithAlpha(this Color color, float a)
+        {
+            color.a = a;
+            return color;
+        }
+
+        public static Vector2 ToVector2XY(this Vector3 vector3) => new Vector2(vector3.x, vector3.y);
+
+        public static Vector3 ToVector3(this Vector2 vector2) => vector2;
+
+        public static RectTransform GetRTOrDefault(this Transform transform) => transform as RectTransform;
+    }
+
     namespace CanvasScale
     {
         public class CanvasScale
@@ -55,74 +84,38 @@ namespace EaseOfUse
     }
     namespace VectorCalculation
     {
-        public static class Extensions
-        {
-            public static float Cross(this Vector2 pointA, Vector2 pointB)
-                => (pointA.x * pointB.y) - (pointB.x * pointA.y);
-
-            public static Vector2 Tangent(this Vector2 normalizedDir)
-                => Vector3.Cross(Vector3.forward, normalizedDir);
-            public static Vector3 Tangent(this Vector3 normalizedDir, Vector3 baseAxis)
-                => Vector3.Cross(baseAxis, normalizedDir);
-
-            public static bool IsLeftOf(this Vector2 pointA, Vector2 pointB) =>
-                (pointB - pointA).normalized.Cross(Vector2.up) < 0;
-            public static bool IsLeftOf(this Vector3 pointA, Vector3 pointB, Vector3 baseAxis)
-                => (pointB - pointA).normalized.Tangent(baseAxis).GetNonZeroElement() < 0;
-
-            public static float GetNonZeroElement(this Vector3 target)
-            {
-                for (int i = 0; i < 3; ++i)
-                {
-                    if (i == 0 && target.x != 0)
-                        return target.x;
-                    if (i == 1 && target.y != 0)
-                        return target.y;
-                    if (i == 2 && target.z != 0)
-                        return target.z;
-                }
-                return 0;
-            }
-
-            public static Vector2 ToVector2XY(this Vector3 vector3) => new Vector2(vector3.x, vector3.y);
-
-            public static Vector3 ToVector3(this Vector2 vector2) => vector2;
-
-            public static RectTransform rt(this Transform transform) => transform as RectTransform;
-        }
-
         public class VectorCalculation
         {
             public static bool Similar(Vector3 left, Vector3 right, float threshold)
-            {
-                if ((left - right).sqrMagnitude <= (threshold * threshold)) return true;
-                return false;
-            }
+                => (left - right).sqrMagnitude <= (threshold * threshold);
 
-            public static float SignedAngle(Vector2 pointA, Vector2 pointB)
-            {
-                return pointA.IsLeftOf(pointB) ? -UnsignedAngle(pointA, pointB) : UnsignedAngle(pointA, pointB);
-            }
-
+            public static float SignedAngle2D(Vector2 pointA, Vector2 pointB)
+                => IsBLeftOfA2D(pointA, pointB) ? -UnsignedAngle2D(pointA, pointB) : UnsignedAngle2D(pointA, pointB);
             public static float SignedAngle(Vector3 pointA, Vector3 pointB, Vector3 baseAxis)
-            {
-                return pointA.IsLeftOf(pointB, baseAxis) ? -UnsignedAngle(pointA, pointB, baseAxis) : UnsignedAngle(pointA, pointB, baseAxis);
-            }
+                => IsBLeftOfA(pointA, pointB, baseAxis) ? -UnsignedAngle(pointA, pointB, baseAxis) : UnsignedAngle(pointA, pointB, baseAxis);
 
-            public static float UnsignedAngle(Vector2 pointA, Vector2 pointB)
-            {
-                return Mathf.Acos(Vector2.Dot((pointB - pointA).normalized, Vector2.up)) * Mathf.Rad2Deg;
-            }
-
+            public static float UnsignedAngle2D(Vector2 pointA, Vector2 pointB)
+                => Mathf.Acos(Vector2.Dot((pointB - pointA).normalized, Vector2.up)) * Mathf.Rad2Deg;
             public static float UnsignedAngle(Vector3 pointA, Vector3 pointB, Vector3 baseAxis)
-            {
-                return Mathf.Acos(Vector3.Dot((pointB - pointA).normalized, baseAxis)) * Mathf.Rad2Deg;
-            }
+                => Mathf.Acos(Vector3.Dot((pointB - pointA).normalized, baseAxis)) * Mathf.Rad2Deg;
+
+            public static float Cross2D(Vector2 pointA, Vector2 pointB)
+                => (pointA.x * pointB.y) - (pointB.x * pointA.y);
+
+            public static Vector2 Tangent2D(Vector2 normalizedDir)
+                => Vector3.Cross(Vector3.forward, normalizedDir);
+            public static Vector3 Tangent(Vector3 normalizedDir, Vector3 baseAxis)
+                => Vector3.Cross(baseAxis, normalizedDir);
+
+            public static bool IsBLeftOfA2D(Vector2 pointA, Vector2 pointB)
+                => Cross2D((pointB - pointA).normalized, Vector2.up) < 0;
+            public static bool IsBLeftOfA(Vector3 pointA, Vector3 pointB, Vector3 baseAxis)
+                => Tangent((pointB - pointA).normalized, baseAxis).GetNonZeroElement() < 0;
         }
     }
-    namespace Console
+    namespace ConsoleExpansion
     {
-        public class Console
+        public class ConsoleExpansion
         {
             public static void ClearLog()
             {

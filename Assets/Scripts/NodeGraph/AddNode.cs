@@ -21,7 +21,7 @@ namespace NodeGraph
             }
             catch (NullReferenceException e)
             {
-                EaseOfUse.Console.Console.PrintError(e.Message);
+                EaseOfUse.ConsoleExpansion.ConsoleExpansion.PrintError(e.Message);
             }
             finally
             {

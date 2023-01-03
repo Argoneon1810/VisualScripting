@@ -1,32 +1,30 @@
-﻿using UnityEngine;
+﻿using EaseOfUse.ConsoleExpansion;
 using TMPro;
-using EaseOfUse.Console;
+using UnityEngine;
 
 namespace NodeGraph.Visual
 {
     public class SingleValueNodeVis : NodeVis
     {
-        SingleValueNode self;
         [SerializeField] TMP_InputField text;
 
         private void Start()
         {
-            self = GetComponent<SingleValueNode>();
-            text.text = self.Value.ToString();
+            text.text = (self as SingleValueNode).Value.ToString();
         }
 
         public void OnValueChanged(string changedValue)
         {
             if (int.TryParse(changedValue, out int parsed))
             {
-                self.Value = parsed;
+                (self as SingleValueNode).Value = parsed;
             }
             else if (changedValue.Equals("-") || changedValue.Equals("."))
-                Console.Print("Not a number, but waiting for one as it might follow afterwards.");
+                ConsoleExpansion.Print("Not a number, but waiting for one as it might follow afterwards.");
             else
             {
-                self.Value = 0;
-                Console.Print("Not a number.");
+                (self as SingleValueNode).Value = 0;
+                ConsoleExpansion.Print("Not a number.");
             }
         }
     }

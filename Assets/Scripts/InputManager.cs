@@ -7,7 +7,8 @@ public class InputManager : MonoBehaviour
     public static InputManager Instance
     {
         get => instance;
-        set {
+        set
+        {
             if (instance != null)
                 Destroy(value.gameObject);
             else
@@ -26,8 +27,8 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetButtonDown("Fire1")) OnPointerDown?.Invoke(GetMousePosition());
-        if(Input.GetButtonUp("Fire1")) OnPointerUp?.Invoke(GetMousePosition());
+        if (Input.GetButtonDown("Fire1")) OnPointerDown?.Invoke(GetMousePosition());
+        if (Input.GetButtonUp("Fire1")) OnPointerUp?.Invoke(GetMousePosition());
     }
 
     public static Vector2 GetMousePosition()

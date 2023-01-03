@@ -1,7 +1,7 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 namespace Toast
 {
@@ -39,7 +39,7 @@ namespace Toast
 
             originalPosition = mRectTransform.anchoredPosition;
 
-            mask = GetComponent<Image>();   
+            mask = GetComponent<Image>();
 
             originalColorMask = mask.color;
             originalColorText = textMeshProUGUI.color;
@@ -56,7 +56,7 @@ namespace Toast
         IEnumerator ShowCoroutine()
         {
             float t = 0;
-            if(showHideMode == ShowHideMode.Transform)
+            if (showHideMode == ShowHideMode.Transform)
             {
                 Vector2 targetPosition = originalPosition + new Vector2(0, 200);
                 while (t < 1)
@@ -66,7 +66,7 @@ namespace Toast
                     yield return null;
                 }
             }
-            else if(showHideMode == ShowHideMode.Fade)
+            else if (showHideMode == ShowHideMode.Fade)
             {
                 originalPosition = mRectTransform.anchoredPosition += new Vector2(0, 200);
                 while (t < 1)

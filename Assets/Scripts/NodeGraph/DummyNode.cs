@@ -1,6 +1,6 @@
 ﻿using CookNodeGraph;
+using EaseOfUse.ConsoleExpansion;
 using System.Linq;
-using EaseOfUse.Console;
 
 namespace NodeGraph
 {
@@ -8,7 +8,7 @@ namespace NodeGraph
     {
         protected override void Calculate()
         {
-            Console.Print(name);
+            ConsoleExpansion.Print(name);
             if (Children.Count() < NumOfInputs()) return;
             Children[NumOfInputs() - 1].Tick();
         }

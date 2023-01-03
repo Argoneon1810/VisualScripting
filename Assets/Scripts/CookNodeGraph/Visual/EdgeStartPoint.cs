@@ -1,4 +1,3 @@
-using EaseOfUse.CanvasScale;
 using UnityEngine;
 
 namespace CookNodeGraph
@@ -10,7 +9,7 @@ namespace CookNodeGraph
             InputManager im;
             RectTransform rt;
             Canvas rootCanvas;
-            
+
             void Start()
             {
                 im = InputManager.Instance;

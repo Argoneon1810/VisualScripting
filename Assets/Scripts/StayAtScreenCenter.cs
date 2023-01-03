@@ -1,5 +1,5 @@
+using EaseOfUse;
 using UnityEngine;
-using EaseOfUse.VectorCalculation;
 
 [ExecuteAlways]
 public class StayAtScreenCenter : MonoBehaviour

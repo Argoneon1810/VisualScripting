@@ -1,8 +1,8 @@
+using EaseOfUse.CanvasScale;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using EaseOfUse.CanvasScale;
+using UnityEngine.UI;
 
 namespace CookNodeGraph
 {

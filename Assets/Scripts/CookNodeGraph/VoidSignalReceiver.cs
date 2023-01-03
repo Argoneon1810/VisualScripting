@@ -7,7 +7,7 @@ namespace CookNodeGraph
         public event Action ToDo;
         public override void OnReceiveSignal(Nothing t)
         {
-            ToDo?.Invoke(); 
+            ToDo?.Invoke();
         }
     }
 }

@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using CookNodeGraph.Visual;
+﻿using CookNodeGraph.Visual;
+using UnityEngine;
 
 namespace NodeGraph.Visual
 {

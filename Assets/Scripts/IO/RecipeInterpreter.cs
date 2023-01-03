@@ -1,6 +1,5 @@
 ﻿using EaseOfUse.BooleanTrigger;
-using EaseOfUse.Console;
-using System.Text;
+using EaseOfUse.ConsoleExpansion;
 using UnityEngine;
 
 namespace IO
@@ -20,8 +19,8 @@ namespace IO
         void Convert()
         {
             if (clearLogBeforePrint)
-                Console.ClearLog();
-            Console.Print("Placeholder", "Yo");
+                ConsoleExpansion.ClearLog();
+            ConsoleExpansion.Print("Placeholder", "Yo");
         }
     }
 }

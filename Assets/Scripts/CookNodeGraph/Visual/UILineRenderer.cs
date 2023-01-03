@@ -1,6 +1,6 @@
+using EaseOfUse.VectorCalculation;
 using UnityEngine;
 using UnityEngine.UI;
-using EaseOfUse.VectorCalculation;
 
 namespace CookNodeGraph
 {
@@ -47,7 +47,7 @@ namespace CookNodeGraph
 
                 vh.Clear();
 
-                Vector2 tan = (to - from).normalized.Tangent();
+                Vector2 tan = VectorCalculation.Tangent2D((to - from).normalized);
 
                 UIVertex vertex = UIVertex.simpleVert;
                 vertex.color = color;
@@ -58,7 +58,7 @@ namespace CookNodeGraph
                 vertex.position = to + tan * -width;
                 vh.AddVert(vertex);
 
-                vertex.position = to  + tan * width;
+                vertex.position = to + tan * width;
                 vh.AddVert(vertex);
 
                 vertex.position = from + tan * width;

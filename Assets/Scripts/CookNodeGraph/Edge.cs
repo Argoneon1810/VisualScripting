@@ -15,7 +15,7 @@ namespace CookNodeGraph
 
         private void Update()
         {
-            if(BooleanTrigger.Trigger(ref debugAttach))
+            if (BooleanTrigger.Trigger(ref debugAttach))
             {
                 TryAttachLeft(debugLeft);
                 TryAttachRight(debugRight);
@@ -24,7 +24,7 @@ namespace CookNodeGraph
 
         public bool TryAttachLeft(Node node)
         {
-            if(node is IHaveOutput<T>)
+            if (node is IHaveOutput<T>)
             {
                 left = node;
                 OnAttach();

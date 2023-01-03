@@ -239,7 +239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aca6e70fc011b44a94456fa74b2baeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Parent: {fileID: 0}
+  Parent: {fileID: 232697157}
   Children: []
   value: 5
 --- !u!114 &344635604
@@ -254,9 +254,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4f06d1a6a4a0a2418141eae9027f6cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputKnobs: []
-  outputKnobs:
-  - {fileID: 4847410726900053552}
+  self: {fileID: 344635605}
   text: {fileID: 723446075058638047}
 --- !u!1 &602791876353377009
 GameObject:
@@ -1156,6 +1154,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7255365159744784396}
+  - component: {fileID: 232697157}
   - component: {fileID: 4847410726900053552}
   - component: {fileID: 1441560479072735162}
   m_Layer: 5
@@ -1186,6 +1185,22 @@ RectTransform:
   m_AnchoredPosition: {x: -10, y: -15.5}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 1, y: 1}
+--- !u!114 &232697157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7164392472566610071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3eea452ee3ab624689ab162b5058ea6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Parent: {fileID: 0}
+  Children:
+  - {fileID: 344635605}
+  knobType: 1
 --- !u!114 &4847410726900053552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1198,9 +1213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f201375dc27ed14183390e5b34ef474, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  self: {fileID: 344635605}
-  type: 1
-  index: 0
+  self: {fileID: 232697157}
 --- !u!114 &1441560479072735162
 MonoBehaviour:
   m_ObjectHideFlags: 0

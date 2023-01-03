@@ -1,4 +1,4 @@
-using EaseOfUse.Console;
+using EaseOfUse.ConsoleExpansion;
 
 namespace CookNodeGraph
 {
@@ -18,7 +18,7 @@ namespace CookNodeGraph
                 print("StartNode:\tOnReceiveSignal()\t\tReceived Tick");
             if (showDebugLogs)
                 print("StartNode:\tOnReceiveSignal()\t\tPassing over through OnStart()");
-            if(signalReceiver != null)
+            if (signalReceiver != null)
                 signalReceiver.OnReceiveSignal(Nothing.nothing);
         }
 
@@ -37,7 +37,7 @@ namespace CookNodeGraph
                 signalReceiver = null;
             else
                 if (showDebugLogs)
-                    Console.PrintError("priorly attached receiver is not equal to the SignalReceiver handed over argument");
+                ConsoleExpansion.PrintError("priorly attached receiver is not equal to the SignalReceiver handed over argument");
         }
 
         public int Count()
