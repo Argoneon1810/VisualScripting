@@ -1,0 +1,33 @@
+{
+    "recipes": [
+        {
+            "name": "Barrel Roll",
+            "ingredients": [
+                "carrot",
+                "raddish"
+            ],
+            "procedures": [
+                {
+                    "index": 0,
+                    "name": "Put in a dish",
+                    "description": "Yanamsein",
+                    "requirements": [
+                        {
+                            "ingredient": "carrot",
+                            "quantity": 1
+                        },
+                        {
+                            "ingredient": "raddish",
+                            "quantity": 1
+                        }
+                    ]
+                }
+            ],
+            "result": {
+                "name": "Barrel Roll",
+                "procedureIntegrity": 0.9900000095367432,
+                "bonus": 0.009999999776482582
+            }
+        }
+    ]
+}
