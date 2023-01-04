@@ -136,8 +136,11 @@ namespace NodeGraph.Visual
             if (lastPos_From != screenPos_From || lastPos_To != screenPos_To)
                 isDirty = true;
 
-            if (BooleanTrigger.Trigger(ref isDirty))
+            if (isDirty)
             {
+                lastPos_From = screenPos_From;
+                lastPos_To = screenPos_To;
+
                 Vector3 dir = screenPos_From - screenPos_To;
                 Vector3 dir_Normalized = dir.normalized;
                 float dir_Magnitude = dir.magnitude;

@@ -24,7 +24,7 @@ namespace NodeGraph.Visual
             GameObject edgeGameObject = new GameObject("edge");
             Transform edgeTransform = edgeGameObject.transform;
 
-            edgeTransform.SetParent(edgeHolder);
+            edgeTransform.SetParent(edgeHolder, false);
             edgeGameObject.AddComponent<RectTransform>();
             edgeGameObject.AddComponent<CanvasRenderer>();
 
