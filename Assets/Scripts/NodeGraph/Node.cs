@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace NodeGraph
@@ -24,14 +25,13 @@ namespace NodeGraph
         }
 
         public Node GetParent() => Parent;
-        public void AssignParent(Node node)
+        public void AssignParent(Node node) => Parent = node;
+        public void RemoveParent()
         {
-            Parent = node;
+            Parent = null;
+            OnDisconnectedFromParent();
         }
-
-        public List<Node> GetChildren() => Children;
-        public bool HasChild(Node probableChild) => Children.Contains(probableChild);
-        public int IndexOf(Node node) => Children.IndexOf(node);
+        public virtual void OnDisconnectedFromParent() { }
 
         public void AssignChildren(Node node) => AssignChildren(node, Children.Count);
         public void AssignChildren(Node node, int index)
@@ -63,13 +63,15 @@ namespace NodeGraph
             return Children[index];
         }
 
-        public void RemoveAtIfExists(int index)
+        public void RemoveChildAtIndexIfExists(int index)
         {
             if (Children.Count == 0) return;
             Node toRemove = Children[index];
             if (toRemove == null) return;
             Children.RemoveAt(index);
+            OnDisconnectedToChildAt(index);
         }
+        public virtual void OnDisconnectedToChildAt(int index) { }
     }
 
     public class Node<T> : Node

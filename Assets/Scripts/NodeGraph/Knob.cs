@@ -16,6 +16,9 @@ namespace NodeGraph
             result = Children[0].Tick();
         }
 
+        public override void OnDisconnectedFromParent() => result = null;
+        public override void OnDisconnectedToChildAt(int index) => result = null;
+
         protected override int NumOfInputs() => 1;
     }
 }

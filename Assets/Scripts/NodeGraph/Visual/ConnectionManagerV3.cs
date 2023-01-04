@@ -50,7 +50,7 @@ namespace NodeGraph.Visual
 
                     knob.AssignChildren(edgeInHold);
                     edgeInHold.AssignChildren(knobInHold);
-                    edgeInHold.name += "-" + knobInHold.GetParent().name + "~" + knob.GetChildAt(0).name;
+                    edgeInHold.name += "-" + knobInHold.GetChildAt(0).name + "~" + knob.GetParent().name;
                     edgeInHold_Vis.EdgeStartsFrom(knob.transform);
 
                     return true;
@@ -64,7 +64,7 @@ namespace NodeGraph.Visual
 
                     edgeInHold.AssignChildren(knob);
                     knobInHold.AssignChildren(edgeInHold);
-                    edgeInHold.name += "-" + knob.GetParent().name + "~" + knobInHold.GetChildAt(0).name;
+                    edgeInHold.name += "-" + knob.GetChildAt(0).name + "~" + knobInHold.GetParent().name;
                     edgeInHold_Vis.EdgeEndsTo(knob.transform);
 
                     return true;
@@ -79,9 +79,10 @@ namespace NodeGraph.Visual
             Edge oldEdge1, oldEdge2;
             oldEdge1 = parent.GetChildAt(0) as Edge;
             oldEdge2 = child.GetParent() as Edge;
-            parent.RemoveAtIfExists(0);
-            if (oldEdge1) UnityEngine.Object.Destroy(oldEdge1);
-            if (oldEdge2) UnityEngine.Object.Destroy(oldEdge2);
+            parent.RemoveChildAtIndexIfExists(0);
+            child.RemoveParent();
+            if (oldEdge1) oldEdge1.SetInvalid();
+            if (oldEdge2) oldEdge2.SetInvalid();
         }
 
         private bool HasAncestryLoop(Node parent, Node child)

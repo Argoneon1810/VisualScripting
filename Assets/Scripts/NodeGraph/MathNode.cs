@@ -1,4 +1,5 @@
 ﻿using EaseOfUse.ConsoleExpansion;
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -16,14 +17,36 @@ namespace NodeGraph
     public class MathNode : Node<float>
     {
         private static readonly FloatResult Zero = new FloatResult();
+
         public UnityEvent OnTypeChange;
-        [SerializeField] private MathType type;
+
+        Func<float, float, float> operation = (a, b) => a + b;
+
+        [SerializeField] private MathType type = MathType.Add;
         public MathType Type
         {
             get => type;
             set
             {
                 type = value;
+                switch(type)
+                {
+                    case MathType.Add:
+                        operation = (a, b) => a + b;
+                        break;
+                    case MathType.Subtract:
+                        operation = (a, b) => a - b;
+                        break;
+                    case MathType.Multiply:
+                        operation = (a, b) => a * b;
+                        break;
+                    case MathType.Divide:
+                        operation = (a, b) => a / b;
+                        break;
+                    case MathType.Modulus:
+                        operation = (a, b) => a % b;
+                        break;
+                }
                 OnTypeChange?.Invoke();
             }
         }
@@ -37,46 +60,23 @@ namespace NodeGraph
 
         protected override void Calculate()
         {
-            float toReturn = 0;
-            try
-            {
-                FloatResult a = (Children.Count - 1) >= 0 ? Children[0] ? Children[0].Tick() as FloatResult : Zero : Zero;
-                FloatResult b = (Children.Count - 1) >= 1 ? Children[1] ? Children[1].Tick() as FloatResult : Zero : Zero;
+            Result a = Children[0].Tick();
+            Result b = Children[1].Tick();
 
-                switch (type)
-                {
-                    case MathType.Add:
-                        toReturn = a.GetValue() + b.GetValue();
-                        break;
-                    case MathType.Subtract:
-                        toReturn = a.GetValue() - b.GetValue();
-                        break;
-                    case MathType.Multiply:
-                        toReturn = a.GetValue() * b.GetValue();
-                        break;
-                    case MathType.Divide:
-                        if (b.GetValue() == 0)
-                            throw new System.DivideByZeroException();
-                        toReturn = a.GetValue() / b.GetValue();
-                        break;
-                    case MathType.Modulus:
-                        if (b.GetValue() == 0)
-                            throw new System.DivideByZeroException();
-                        toReturn = a.GetValue() % b.GetValue();
-                        break;
-                }
-                (result as FloatResult).SetValue(toReturn);
-            }
-            catch (System.NullReferenceException e)
-            {
-                ConsoleExpansion.PrintError(e.Message, "\n", e.StackTrace);
-                ConsoleExpansion.Print("At least one of its children is not a number node.");
-            }
-            catch (System.DivideByZeroException e)
-            {
-                ConsoleExpansion.PrintError(e.Message, "\n", e.StackTrace);
-                ConsoleExpansion.Print("Latter child returned 0, which is invalid for ", type, "function.");
-            }
+            float fa, fb;
+
+            if (!a) fa = 0;
+            else if (!float.TryParse(a.GetResultInString(), out fa)) fa = float.NaN;
+            if (!b) fb = 0;
+            else if (!float.TryParse(b.GetResultInString(), out fb)) fb = float.NaN;
+
+            if ((Type == MathType.Divide || Type == MathType.Modulus) && fb == 0)
+                fb = float.NaN;
+
+            if (fa == float.NaN || fb == float.NaN)
+                (result as FloatResult).SetValue(float.NaN);
+            else
+                (result as FloatResult).SetValue(operation(fa, fb));
         }
     }
 }

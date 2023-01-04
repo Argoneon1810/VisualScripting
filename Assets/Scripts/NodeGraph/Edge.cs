@@ -1,3 +1,6 @@
+using UnityEngine;
+using EaseOfUse.BooleanTrigger;
+
 namespace NodeGraph
 {
     public class Edge : Node
@@ -17,5 +20,24 @@ namespace NodeGraph
         {
             return Children.Count > 0 ? Children[0] : null;
         }
+
+        public void SetInvalid()
+        {
+            Destroy(gameObject);
+        }
+
+#if UNITY_EDITOR_WIN
+        [SerializeField] bool bInvalidate;
+
+        private void Update()
+        {
+            if (BooleanTrigger.Trigger(ref bInvalidate))
+            {
+                GetParent().RemoveChildAtIndexIfExists(0);
+                GetChild().RemoveParent();
+                SetInvalid();
+            }
+        }
+#endif
     }
 }
